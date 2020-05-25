@@ -1,0 +1,24 @@
+{
+  "name": "beamerstream_app",
+  "version": "1.0.0",
+  "description": "Beamerstream App",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "electron build/",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --armv7l"
+  },
+  "author": "Appinda",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.12.29",
+    "electron": "8.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/consola": "^2.2.5",
+    "@types/electron": "^1.6.10",
+    "dotenv": "^8.2.0"
+  }
+}
