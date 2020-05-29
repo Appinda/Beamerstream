@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>BeamerStream</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body class="noselect">
+    <p id="lyrics"></p>
+    <p id="lyrics" class="stroke"></p>
+
+    <script src="/modules/jquery/dist/jquery.min.js"></script>
+    <script src="/modules/socket.io-client/dist/socket.io.slim.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

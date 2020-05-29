@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "meta": {
+    "name": "Happy Day",
+    "author": "Tim Hughes",
+    "ccli": "Capitol Christian Music Group"
+  },
+  "theme": 0,
+  "lyrics": {
+    "order": "V1 V2 C1 V3 V4 C2 B1 C3",
+    "V1": "The greatest day in history%nDeath is beaten, You have rescued me%sSing it out, Jesus is alive",
+    "V2": "The empty cross, the empty grave%nLife eternal, You have won the day%sShout it out, Jesus is alive%nHe's alive",
+    "C1": "Oh, happy day, happy day%nYou washed my sin away%sOh, happy day, happy day%nI'll never be the same%sForever I am changed",
+    "V3": "When I stand in that place%nFree at last, meeting face to face%sI am yours, Jesus, You are mine",
+    "V4": "Endless joy, perfect peace%nEarthly pain finally will cease%sCelebrate, Jesus is alive%nHe's alive",
+    "C2": "And oh, happy day, happy day%nYou washed my sin away%sOh, happy day, happy day%nI'll never be the same%sOh no, forever I am changed",
+    "B1": "Oh, what a glorious day%nWhat a glorious way%sThat You have saved me%nAnd oh, what a glorious day%sWhat a glorious name",
+    "C3": "Hey, and oh, happy day, happy day%nYou washed my sin away%sOh, happy day, happy day%nI'll never be the same%sOh no, forever I am changed%nWhat a glorious, glorious day%sI'll never be the same"
+  }
+}
+

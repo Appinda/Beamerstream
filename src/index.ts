@@ -1,15 +1,29 @@
 import dotenv from "dotenv";
-import { app, BrowserWindow } from "electron";
+import express from "express";
+import http from "http";
+import https from "https";
+import socketio from "socket.io";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
+import AssetLoader from "./modules/AssetLoader";
 
 dotenv.config();
 app.allowRendererProcessReuse = true;
 
+var expressapp = express();
+var server = http.createServer(expressapp);
+var io = socketio(server);
+
+
+
+
+let assets: AssetLoader = new AssetLoader();
+
 let mainWindow: Electron.BrowserWindow;
 
 function createWindow() {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
+    show: false,
     height: 600,
     webPreferences: {
       nodeIntegration: true
@@ -17,42 +31,59 @@ function createWindow() {
     width: 800,
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../public/index.html"));
-
-  // Open the DevTools.
+  mainWindow.loadFile(path.join(__dirname, "../public/control/index.html"));
   mainWindow.webContents.openDevTools();
-
-  // Emitted when the window is closed.
   mainWindow.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null;
   });
+  mainWindow.maximize();
+  mainWindow.show();
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+ipcMain.on("getSongs", (event) => {
+  assets.getSonglist().then(songlist => {
+    event.reply("sendSongs", { songs: songlist });
+  });
+});
+ipcMain.on("getSong", (event, args: {id: string}) => {
+  event.reply("sendSong", assets.getSong(args.id));
+});
+ipcMain.on("setText", (event, args: {text: string}) => {
+  io.emit('setText', { text: args.text });
+});
+
 app.on("ready", createWindow);
 
-// Quit when all windows are closed.
 app.on("window-all-closed", () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
 app.on("activate", () => {
-  // On OS X it"s common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
   }
 });
 
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
+
+// ========== SERVER ==============
+
+expressapp.get("/", (req, res) => { res.send("Working!") });
+expressapp.use("/control", express.static(path.join(__dirname, "../public/control")));
+expressapp.use("/output", express.static(path.join(__dirname, "../public/output")));
+expressapp.use("/modules/jquery", express.static(path.join(__dirname, "../node_modules/jquery")));
+expressapp.use("/modules/socket.io-client", express.static(path.join(__dirname, "../node_modules/socket.io-client")));
+
+
+io.on('connection', (socket) => {
+  // User connection
+  console.log("A user connected.");
+  // socket.on('disconnect', () => {
+    // User disconnected
+  // });
+});
+
+server.listen(3000, () => {
+  console.log("listening on *:3000");
+});

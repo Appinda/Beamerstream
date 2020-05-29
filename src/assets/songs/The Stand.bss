@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "meta": {
+    "name": "The Stand",
+    "author": "Hillsong",
+    "ccli": "Capitol Christian Music Group"
+  },
+  "theme": 0,
+  "lyrics": {
+    "order": "V1 V2 C1 V3 C1 B1 C1",
+    "V1": "You stood before creation%nEternity within Your hands%sAnd you spoke all life into motion%nMy soul now to stand",
+    "V2": "You stood before my failure%nAnd carried the cross for my shame%sMy sin weighed upon Your shoulders%nMy soul now to stand",
+    "C1": "So what can I say%nAnd what could I do%sBut offer this heart O God%nCompletely to You",
+    "V3": "So I'll walk upon salvation%nYour Spirit alive in me%sThis life to declare Your promise%nMy soul now to stand",
+    "B1": "So I'll stand%nWith arms high and heart abandoned%sIn awe of the One who gave it all%nSo I'll stand%nMy soul Lord to You surrendered%sAll I am is Yours"
+  }
+}
