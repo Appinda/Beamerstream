@@ -91,3 +91,12 @@ button {
   width: 100%;
   margin-bottom: 10px;
 }
+.input-group {
+  display: block;
+}
+.input-group label{
+  display: block;
+}
+.input-group input, button{
+  display: inline-block;
+}

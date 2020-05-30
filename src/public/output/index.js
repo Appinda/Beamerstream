@@ -43,4 +43,9 @@ $(() => {
     let text = decodeLyrics(args.text);
     setLyrics(text)
   });
+  socket.on('setStyle', (style) => {
+    elements.lyrics.css({
+      fontSize: style.fontSize||undefined
+    });
+  });
 })

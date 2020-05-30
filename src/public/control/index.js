@@ -110,10 +110,12 @@ function loadSong(song){
 function unloadSong(){
   $(".outputlist").empty();
 }
-
+function deselectOutput(){
+  $(".outputlist > .active").removeClass("active");
+}
 function listenOutputlist(){
   $(".outputlist > div").click(e => {
-    $(".outputlist > .active").removeClass("active");
+    deselectOutput();
     $(e.target).addClass("active");
     setCurrentText();
   });
@@ -131,6 +133,10 @@ function listenSonglist(){
     loadSongById(id);
   });
 }
+function setFontSize(size){
+  size = size + 'px';
+  ipcRenderer.send('setStyle', {fontSize: size});
+}
 
 // ===========================================
 //                  RUNTIME
@@ -140,6 +146,7 @@ $(() => {
   
   // ARROWS
   $(document).keydown(e => {
+    if($(e.target).prop("tagName") !== "BODY") return;
     if (e.key == "ArrowUp") {
       up();
     }
@@ -149,10 +156,20 @@ $(() => {
   });
 
   // HIDE
-  $("#btn_hide").click((e) => {
-    $(".outputlist > .active").removeClass("active");
+  $(".btn_hide").click((e) => {
+    deselectOutput();
     setText("");
   });
+  $(".btn_fadeout").click((e) => {
+    deselectOutput();
+    setText("");
+  });
+
+  // FONTSIZE
+  $("#input_fontsize").change((e) => {
+    let fontsize = parseInt(e.target.value);
+    setFontSize(fontsize);
+  })
 
   loadSong(SONG1);
 });

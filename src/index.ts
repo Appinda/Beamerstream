@@ -6,6 +6,7 @@ import socketio from "socket.io";
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 import AssetLoader from "./modules/AssetLoader";
+import Style from "./obj/Style";
 
 dotenv.config();
 app.allowRendererProcessReuse = true;
@@ -50,6 +51,9 @@ ipcMain.on("getSong", (event, args: {id: string}) => {
 });
 ipcMain.on("setText", (event, args: {text: string}) => {
   io.emit('setText', { text: args.text });
+});
+ipcMain.on("setStyle", (event, args: Style) => {
+  io.emit('setStyle', args);
 });
 
 app.on("ready", createWindow);

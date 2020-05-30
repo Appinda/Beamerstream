@@ -14,8 +14,8 @@
         <div class="select songlist" style="height: 100%"></div>
       </div>
       <div class="middlebuttons">
-        <button id="btn_hide">Hide</button>
-        <button id="btn_fadeout">Fade away</button>
+        <button class="btn_hide">Hide</button>
+        <button class="btn_fadeout">Fade away</button>
       </div>
       <div class="output">
         <div class="select outputlist" style="height: 100%">
@@ -23,7 +23,12 @@
           <!-- <div>There's a place where mercy reigns<br/>And never dies</div> -->
         </div>
       </div>
-      <div class="footer"></div>
+      <div class="footer">
+        <div class="input-group">
+          <label>Front size</label>
+          <input type="number" min="0" step="1" value="30" id="input_fontsize" style="width: 50px;"/> px
+        </div>
+      </div>
     </div>
 
     <script type="text/javascript">require("./index.js")</script>
