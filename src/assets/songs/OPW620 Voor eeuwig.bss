@@ -7,10 +7,12 @@
   },
   "theme": 0,
   "lyrics": {
-    "order": "V1 V2 C1 V3 C1",
+    "order": "V1 V2 C1 V3 C1 B1 C2",
     "V1": "Prijs God, de Heer die ons leven is;%nZijn liefde duurt voor eeuwig.%sPrijs Hem die goed en vergevend is;%nZijn liefde duurt voor eeuwig.%sKom, prijs Zijn naam.",
     "V2": "Zijn trouwe hand en Zijn arm vol kracht;%nZijn liefde duurt voor eeuwig.%sHet offer dat ons nieuw leven bracht;%nZijn liefde duurt voor eeuwig.%s%nKom, prijs Zijn naam (2x)",
     "C1": "Voor eeuwig is Zijn liefde.%nVoor eeuwig in Zijn kracht.%sVoor eeuwig is Hij bij ons.%nVoor eeuwig, voor eeuwig%sVoor eeuwig is Zijn liefde.%nVoor eeuwig in Zijn kracht.%sVoor eeuwig is Hij bij ons.%nVoor eeuwig, voor eeuwig%s%nEn eeuwig.",
-    "V3": "Van zonsopgang tot zonsondergang;%nZijn liefde duurt voor eeuwig.%sHij is onze kracht ons leven lang;%nZijn liefde duurt voor eeuwig.%sKom, prijs Zijn naam %nKom, prijs Zijn naam."
+    "V3": "Van zonsopgang tot zonsondergang;%nZijn liefde duurt voor eeuwig.%sHij is onze kracht ons leven lang;%nZijn liefde duurt voor eeuwig.%sKom, prijs Zijn naam (2x)",
+    "B1": "Zijn liefde duurt voor eeuwig.%sKom prijs zijn naam (2x)",
+    "C1": "Voor eeuwig is Uw liefde.%nVoor eeuwig in Uw kracht.%sVoor eeuwig bent U bij ons.%nVoor eeuwig, voor eeuwig%sVoor eeuwig is Uw liefde.%nVoor eeuwig in Uw kracht.%sVoor eeuwig bent U bij ons.%nVoor eeuwig, voor eeuwig%s%nEn eeuwig."
   }
 }
