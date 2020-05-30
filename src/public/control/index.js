@@ -126,6 +126,11 @@ function setFontSize(size){
   size = size + 'px';
   ipcRenderer.send('setStyle', {fontSize: size});
 }
+function hide(){
+  deselectOutput();
+  setText("");
+  return true;
+}
 
 // ===========================================
 //                  RUNTIME
@@ -136,22 +141,27 @@ $(() => {
   // ARROWS
   $(document).keydown(e => {
     if($(e.target).prop("tagName") !== "BODY") return;
-    if (e.key == "ArrowUp") {
-      up();
-    }
-    if (e.key == "ArrowDown") {
-      down();
+    switch(e.key){
+      case "ArrowUp":
+        up();
+        break;
+      case "ArrowDown":
+        down();
+        break;
+      case "w":
+        hide();
+        break;
+      default:
+        console.log(e.key);
     }
   });
 
   // HIDE
   $(".btn_hide").click((e) => {
-    deselectOutput();
-    setText("");
+    hide();
   });
   $(".btn_fadeout").click((e) => {
-    deselectOutput();
-    setText("");
+    hide();
   });
 
   // FONTSIZE
