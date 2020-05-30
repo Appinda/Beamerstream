@@ -59,7 +59,6 @@ button {
   padding: .5rem 1rem;
   border-bottom: 1px solid #ccc;
   background-color: #fff;
-  cursor: pointer;
   transition: background-color 20ms;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -70,19 +69,29 @@ button {
 .select > div:not(:first-child) {
   border-top: 1px solid #ccc;
 }
-.select > div:hover {
-  background-color: #eeeeff
+.select > div.hover:hover {
+  background-color: #eeeeff;
+  cursor: pointer;
+}
+.select > .title {
+  font-size: .9em;
+  color: #444;
+  padding: .2rem .4rem;
+  background-color: #f8f8f8;
 }
 .songlist > div small{
   color: #888;
 }
-.select > div.active {
+.select > div.hover.active {
   background-color: #449bff;
   border-bottom-color: #2c64a5;
   border-top-color: #2c64a5;
   color: white;
 }
-.select > div.active small {
+.select > div.hover.active small {
+  color: #eee;
+}
+.select > div.hover.active span {
   color: #eee;
 }
 
