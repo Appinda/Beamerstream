@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron build/",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win --armv7l",
+    "dist": "electron-builder --win --x64",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "npm run-script compile",
     "compile": "tsc"
@@ -15,7 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^12.12.42",
-    "electron": "8.0.2",
+    "electron": "^9.0.0",
     "electron-builder": "^22.7.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
@@ -37,7 +37,7 @@
       "category": "public.app-category.graphics-design"
     },
     "win": {
-      "target": "zip"
+      "target": "portable"
     },
     "directories": {
       "buildResources": "."
