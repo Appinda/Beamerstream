@@ -1,7 +1,7 @@
 let elements = {};
 
 function initElements(){
-  elements.lyrics = $("#lyrics");
+  elements.lyrics = $(".lyrics");
 }
 
 function setLyricsStyle(style){
@@ -10,16 +10,16 @@ function setLyricsStyle(style){
 function setLyrics(rawtext){
   let text = decodeLyrics(rawtext); 
   if(rawtext != ""){
-    // $("#lyrics").fadeIn(500);
-    $("#lyrics").show();
+    // $(".lyrics").fadeIn(500);
+    elements.lyrics.show();
 
     let html = text;
     html = html.replace(/{sm}/g, "<small>").replace(/{\/sm}/g, "</small>"); // Small
     html = html.replace(/{y}/g, "<span class='stl-y'>").replace(/{\/y}/g, "</span>"); // Yellow
 
-    $("#lyrics").html(html)
+    elements.lyrics.html(html)
   }else{
-    $("#lyrics").hide();
+    elements.lyrics.hide();
   }
 }
 
@@ -41,6 +41,7 @@ $(() => {
     'font-family': 'Helvetica, Arial, sans-serif',
     'font-size': '52px',
     'text-align': 'center',
+    // 'white-space': 'nowrap'
   });
 
   let socket = io();
