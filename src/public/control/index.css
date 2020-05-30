@@ -31,13 +31,16 @@ button {
   grid-template-areas: 
       "header header header"
       "songlist middlebuttons output"
-      "footer footer footer";
+      "footer footer preview";
   grid-template-columns: 1fr auto 1fr;
   grid-template-rows: auto 1fr .5fr;
 }
+
+
 .grid > div { padding: .5rem; overflow: hidden; }
 .grid > .header { grid-area: header; }
 .grid > .songlist { grid-area: songlist; }
+.grid > .preview { grid-area: preview; }
 .grid > .middlebuttons { grid-area: middlebuttons; }
 .grid > .middlebuttons button { 
   padding: 1rem 2rem;
@@ -113,4 +116,49 @@ button {
 /* =================== Styles ================== */
 span.stl-y {
   color: #5159b9;
+}
+.preview iframe {
+  border: 1px solid #aaa;
+  width: calc(250%/16*9);
+  height: 250%;
+  margin-left: calc(50% - (100% / 16 * 9) /2);  
+  -ms-zoom: 0.5;
+  -moz-transform: scale(0.4);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.4);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.4);
+  -webkit-transform-origin: 0 0;
+}
+
+@media screen and (max-width: 900px){
+  .grid {
+    grid-template-areas: 
+      "header header"
+      "songlist output"
+      "footer preview";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr .5fr;
+  }
+  .middlebuttons {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px){
+  .grid {
+    grid-template-areas: 
+      "header"
+      "output"
+      "songlist"
+      "footer"
+      "preview";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 400px 300px 50px 300px;
+  }
+  .middlebuttons {
+    display: none;
+  }
+  .preview iframe {
+    display: none;
+  }
 }
