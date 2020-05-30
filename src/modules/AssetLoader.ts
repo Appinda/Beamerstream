@@ -15,18 +15,22 @@ class AssetLoader {
     return new Promise((resolve, reject) => {
       fs.readFile(path.join(SONGPATH, filename + '.bss'), {encoding: 'utf8'}, (err,file) => {
         if(err) reject(err);
-        let rawsong = JSON.parse(file);
-        resolve({
-          lyrics: rawsong.lyrics,
-          meta: {
-            author: rawsong.meta.author,
-            ccli: rawsong.meta.ccli,
-            filename: filename,
-            id: Utils.getNewObjectID(),
-            name: rawsong.meta.name,
-          },
-          themeid: rawsong.theme
-        });
+        try {
+          let rawsong = JSON.parse(file);
+          resolve({
+            lyrics: rawsong.lyrics,
+            meta: {
+              author: rawsong.meta.author,
+              ccli: rawsong.meta.ccli,
+              filename: filename,
+              id: Utils.getNewObjectID(),
+              name: rawsong.meta.name,
+            },
+            themeid: rawsong.theme
+          });
+        }catch(e){
+          reject(e);
+        }
       })
     });
   }
@@ -34,7 +38,8 @@ class AssetLoader {
     return await new Promise<string[]>((resolve, reject) => {
       fs.readdir(SONGPATH, (err, files) => {
         if(err) reject(err);
-        resolve(files);
+        let songs = files.filter(e => e.endsWith('.bss'))
+        resolve(songs);
       });
     });
   }
@@ -45,9 +50,15 @@ class AssetLoader {
 
     for(let filename of filenames){
       let strippedFilename = filename.slice(0, -4);
-      let song = await this.loadSongFromFile(strippedFilename);
-      SONGS[song.meta.id] = song;
-      songs.push(song.meta);
+      try {
+        let song = await this.loadSongFromFile(strippedFilename);
+        SONGS[song.meta.id] = song;
+        songs.push(song.meta);
+      }catch(e){
+        console.error(`Error while parsing file "${filename}": ${e.message}`)
+        continue;
+      }
+      
     };
 
     songs = songs.sort((a, b) => {

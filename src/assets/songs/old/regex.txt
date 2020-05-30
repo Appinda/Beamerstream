@@ -1,0 +1,1 @@
+(    <verse name=".{2,3}">\n)|(      <lines>)|(    <\/verse>(\n)?)|(<\/lines>)

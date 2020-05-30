@@ -1,24 +1,6 @@
 window.$ = window.jQuery = require('jquery');
 const { ipcRenderer } = require('electron')
 
-let SONG1 = {
-  "format": 1,
-  "meta": {
-    "name": "Sovereign over us",
-    "author": "Michael W. Smith",
-    "ccli": "Capitol Christian Music Group"
-  },
-  "theme": 0,
-  "lyrics": {
-    "order": "V1 C1 V2 C1 C1 B1 B1 C1 E1",
-    "V1": "There is strength within the sorrow%nThere is beauty in our tears%sAnd You meet us in our mourning%nWith a love that casts out fear%sYou are working in our waiting%nYou're sanctifying us%sWhen beyond our understanding%nYou're teaching us to trust",
-    "C1": "Your plans are still to prosper%nYou have not forgotten us%sYou're with us in the fire and the flood%nYou're faithful forever%sPerfect in love%nYou are sovereign over us",
-    "V2": "You are wisdom unimagined%nWho could understand Your ways%sReigning high above the Heavens%nReaching down in endless grace%sYou're the lifter of the lowly%nCompassionate and kind%sYou surround and You uphold me%nAnd Your promises are my delight",
-    "B1": "Even what the enemy means for evil%nYou turn it for our good%sYou turn it for our good and for Your glory%nEven in the valley, You are faithful%sYou're working for our good%nYou're working for our good and for Your glory",
-    "E1": "You're faithful forever%nPerfect in love%s%nYou are sovereign over us"
-  }
-}
-
 // ===========================================
 //                  IPC
 // ===========================================
@@ -97,15 +79,20 @@ async function fetchSongById(id){
 function loadSong(song){
   unloadSong();
   let order = song.lyrics.order.split(" ");
+  if(order == "") {
+    console.error(`Song "${song.meta.name}" has no lyrics.`);
+    return false;
+  }
   for(let versename of order){
     if(!song.lyrics.hasOwnProperty(versename)) { console.error(`Error while parsing song! Verse order contains verse "${versename}", which has not been specified in lyrics.`); continue; }
-    let verse = song.lyrics[versename].replace(/%n/g, "<br/>");
+    let verse = song.lyrics[versename].replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/%n/g, "<br/>").replace(/{sm}/g, "<small>").replace(/{\/sm}/g, "</small>").replace(/{y}/g, "<span class='stl-y'>").replace(/{\/y}/g, "</span>");
     let verses = verse.split("%s");
     for(let verse of verses){
       $(".outputlist").append(`<div>${verse}</div>`);
     }
   }
   listenOutputlist();
+  return true;
 }
 function unloadSong(){
   $(".outputlist").empty();
@@ -131,6 +118,8 @@ function listenSonglist(){
   $(".songlist > div").dblclick(e => {
     let id = $(e.target).attr('data-id');
     loadSongById(id);
+    $(".songlist > .active").removeClass("active");
+    $(e.target).addClass("active");
   });
 }
 function setFontSize(size){
@@ -170,7 +159,5 @@ $(() => {
     let fontsize = parseInt(e.target.value);
     setFontSize(fontsize);
   })
-
-  loadSong(SONG1);
 });
 

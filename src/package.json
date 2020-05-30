@@ -2,17 +2,21 @@
   "name": "beamerstream_app",
   "version": "1.0.0",
   "description": "Beamerstream App",
-  "main": "build/index.js",
+  "main": "./build/index.js",
   "scripts": {
     "start": "electron build/",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win --armv7l"
+    "dist": "electron-builder --win --armv7l",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "npm run-script compile",
+    "compile": "tsc"
   },
   "author": "Appinda",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^12.12.29",
+    "@types/node": "^12.12.42",
     "electron": "8.0.2",
+    "electron-builder": "^22.7.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   },
@@ -23,6 +27,26 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "uuid": "^8.1.0"
+  },
+  "build": {
+    "appId": "beamerstream.desktop",
+    "asar": false,
+    "mac": {
+      "category": "public.app-category.graphics-design"
+    },
+    "win": {
+      "target": "zip"
+    },
+    "directories": {
+      "buildResources": "."
+    },
+    "files": [
+      "assets/**/*",
+      "public/**/*",
+      "build/**/*",
+      "package.json"
+    ]
   }
 }

@@ -10,11 +10,16 @@ function setLyricsStyle(style){
 function setLyrics(rawtext){
   let text = decodeLyrics(rawtext); 
   if(rawtext != ""){
-    $("#lyrics").fadeIn(500);
-    $("#lyrics").html(text)
-    $("#lyrics").attr('title', text);
+    // $("#lyrics").fadeIn(500);
+    $("#lyrics").show();
+
+    let html = text;
+    html = html.replace(/{sm}/g, "<small>").replace(/{\/sm}/g, "</small>"); // Small
+    html = html.replace(/{y}/g, "<span class='stl-y'>").replace(/{\/y}/g, "</span>"); // Yellow
+
+    $("#lyrics").html(html)
   }else{
-    $("#lyrics").fadeOut(500);
+    $("#lyrics").hide();
   }
 }
 
@@ -34,7 +39,7 @@ $(() => {
   initElements();
   setLyricsStyle({
     'font-family': 'Helvetica, Arial, sans-serif',
-    'font-size': '4em',
+    'font-size': '52px',
     'text-align': 'center',
   });
 

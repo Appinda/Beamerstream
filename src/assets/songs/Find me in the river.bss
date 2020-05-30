@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "meta": {
+    "name": "Find me in the River",
+    "author": "Delirious",
+    "ccli": ""
+  },
+  "theme": 0,
+  "lyrics": {
+    "order": "V1 V2 C1 V3 V4 C2",
+    "V1": "Find me in the river%n{sm}{y}Vind me in de rivier{/y}{/sm}%sFind me on my knees%n{sm}{y}Vind me op mijn knieën{/y}{/sm}%sI've walked against the water%n{sm}{y}Ik heb tegen het water opgelopen{/y}{/sm}%sNow I'm waiting if You please%n{sm}{y}Nu wacht ik als ik zo vrij mag zijn{/y}{/sm}",
+    "V2": "We've longed to see the roses%n{sm}{y}We hebben ernaar verlangd de rozen te zien{/y}{/sm}%sBut never felt the thorns%n{sm}{y}Maar voelden nooit de doornen{/y}{/sm}%sAnd brought our pretty crowns%n{sm}{y}En brachten onze mooie kronen mee{/y}{/sm}%sBut never paid the price%n{sm}{y}Maar betaalden nooit de prijs{/y}{/sm}",
+    "C1": "Find me in the river%n{sm}{y}Vind me in de rivier{/y}{/sm}%sFind me there%n{sm}{y}Vind me daar{/y}{/sm}%sFind me on my knees with my soul laid bare%n{sm}{y}Vind me op mijn knieën met mijn ziel blootgelegd{/y}{/sm}%sEven though You're gone and I'm cracked and dry%n{sm}{y}Ook al bent U er niet terwijl ik gebarsten ben en droog{/y}{/sm}%sFind me in the river, I'm waiting here%n{sm}{y}Vind me in de rivier, ik ben hier aan het wachten{/y}{/sm}",
+    "V3": "Find me in the river%n{sm}{y}Vind me in de rivier{/y}{/sm}%sFind me on my knees%n{sm}{y}Vind me op mijn knieën{/y}{/sm}%sI've walked against the water%n{sm}{y}Ik heb tegen het water opgelopen{/y}{/sm}%sNow I'm waiting if You please%n{sm}{y}Nu wacht ik als ik zo vrij mag zijn{/y}{/sm}%n ",
+    "V4": "We didn't count on suffering%n{sm}{y}We rekenden niet op lijden{/y}{/sm}%sWe didn't count on pain%n{sm}{y}We rekenden niet op pijn{/y}{/sm}%sBut if there are blessings in the valley%n{sm}{y}Maar als er zegeningen zijn in de vallei{/y}{/sm}%sThen in the river I will wait%n{sm}{y}Dan zal ik wachten in de rivier{/y}{/sm}",
+    "C2": "Find me in the river%n{sm}{y}Vind me in de rivier{/y}{/sm}%sFind me there%n{sm}{y}Vind me daar{/y}{/sm}%sFind me on my knees with my soul laid bare%n{sm}{y}Vind me op mijn knieën met mijn ziel blootgelegd{/y}{/sm}%sEven though You're gone and I'm cracked and dry%n{sm}{y}Ook al bent U er niet terwijl ik gebarsten ben en droog{/y}{/sm}%sFind me in the river, I'm waiting here for you%n{sm}{y}Vind me in de rivier, ik ben hier op je aan het wachten{/y}{/sm}"
+  }
+}

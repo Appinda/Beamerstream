@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "meta": {
+    "name": "OPW815 Vul dit huis met Uw glorie",
+    "author": "Opwekking",
+    "ccli": ""
+  },
+  "theme": 0,
+  "lyrics": {
+    "order": "V1 V2 C1",
+    "V1": "Vul dit huis met Uw glorie.<br/>Vul dit huis met Uw glorie.%s%nVul dit huis met Uw aanwezigheid.",
+    "V2": "Want alles is door U<br/>en alles is tot U,%s%nopenbaar aan Uw heerlijkheid.",
+    "C1": "Heilig, heilig, heilig is de Heer.<br/>Jezus is Koning, breng hulde geef Hem eer."
+  }
+}

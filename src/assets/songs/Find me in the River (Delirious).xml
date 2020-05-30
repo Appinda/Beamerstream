@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.8" createdIn="OpenLP 2.4.6" modifiedIn="OpenLP 2.4.6" modifiedDate="2020-05-27T21:29:43">
+  <properties>
+    <titles>
+      <title>Find me in the River</title>
+      <title>Find me in the river</title>
+    </titles>
+    <authors>
+      <author>Delirious</author>
+    </authors>
+  </properties>
+  <format>
+    <tags application="OpenLP">
+      <tag name="sb">
+        <open>&lt;sub&gt;</open>
+        <close>&lt;/sub&gt;</close>
+      </tag>
+      <tag name="y">
+        <open>&lt;span style="-webkit-text-fill-color:yellow"&gt;</open>
+        <close>&lt;/span&gt;</close>
+      </tag>
+    </tags>
+  </format>
+  <lyrics>
+    <verse name="v1a">
+      <lines>Find me in the river<br/><tag name="sb"><tag name="y">Vind me in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="v1b">
+      <lines>Find me on my knees<br/><tag name="sb"><tag name="y">Vind me op mijn knieën</tag></tag></lines>
+    </verse>
+    <verse name="v1c">
+      <lines>I've walked against the water<br/><tag name="sb"><tag name="y">Ik heb tegen het water opgelopen</tag></tag></lines>
+    </verse>
+    <verse name="v1d">
+      <lines>Now I'm waiting if You please<br/><tag name="sb"><tag name="y">Nu wacht ik als ik zo vrij mag zijn</tag></tag></lines>
+    </verse>
+    <verse name="v2a">
+      <lines>We've longed to see the roses<br/><tag name="sb"><tag name="y">We hebben ernaar verlangd de rozen te zien</tag></tag></lines>
+    </verse>
+    <verse name="v2b">
+      <lines>But never felt the thorns<br/><tag name="sb"><tag name="y">Maar voelden nooit de doornen</tag></tag></lines>
+    </verse>
+    <verse name="v2c">
+      <lines>And brought our pretty crowns<br/><tag name="sb"><tag name="y">En brachten onze mooie kronen mee</tag></tag></lines>
+    </verse>
+    <verse name="v2d">
+      <lines>But never paid the price<br/><tag name="sb"><tag name="y">Maar betaalden nooit de prijs</tag></tag></lines>
+    </verse>
+    <verse name="c1a">
+      <lines>Find me in the river<br/><tag name="sb"><tag name="y">Vind me in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="c1b">
+      <lines>Find me there<br/><tag name="sb"><tag name="y">Vind me daar</tag></tag></lines>
+    </verse>
+    <verse name="c1c">
+      <lines>Find me on my knees with my soul laid bare<br/><tag name="sb"><tag name="y">Vind me op mijn knieën met mijn ziel blootgelegd</tag></tag></lines>
+    </verse>
+    <verse name="c1d">
+      <lines>Even though You're gone and I'm cracked and dry<br/><tag name="sb"><tag name="y">Ook al bent U er niet terwijl ik gebarsten ben en droog</tag></tag></lines>
+    </verse>
+    <verse name="c1e">
+      <lines>Find me in the river, I'm waiting here<br/><tag name="sb"><tag name="y">Vind me in de rivier, ik ben hier aan het wachten</tag></tag></lines>
+    </verse>
+    <verse name="v3a">
+      <lines>Find me in the river<br/><tag name="sb"><tag name="y">Vind me in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="v3b">
+      <lines>Find me on my knees<br/><tag name="sb"><tag name="y">Vind me op mijn knieën</tag></tag></lines>
+    </verse>
+    <verse name="v3c">
+      <lines>I've walked against the water<br/><tag name="sb"><tag name="y">Ik heb tegen het water opgelopen</tag></tag></lines>
+    </verse>
+    <verse name="v3d">
+      <lines>Now I'm waiting if You please<br/><tag name="sb"><tag name="y">Nu wacht ik als ik zo vrij mag zijn</tag></tag><br/> </lines>
+    </verse>
+    <verse name="v4a">
+      <lines>We didn't count on suffering<br/><tag name="sb"><tag name="y">We rekenden niet op lijden</tag></tag></lines>
+    </verse>
+    <verse name="v4b">
+      <lines>We didn't count on pain<br/><tag name="sb"><tag name="y">We rekenden niet op pijn</tag></tag></lines>
+    </verse>
+    <verse name="v4c">
+      <lines>But if there are blessings in the valley<br/><tag name="sb"><tag name="y">Maar als er zegeningen zijn in de vallei</tag></tag></lines>
+    </verse>
+    <verse name="v4d">
+      <lines>Then in the river I will wait<br/><tag name="sb"><tag name="y">Dan zal ik wachten in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="c2a">
+      <lines>Find me in the river<br/><tag name="sb"><tag name="y">Vind me in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="c2b">
+      <lines>Find me there<br/><tag name="sb"><tag name="y">Vind me daar</tag></tag></lines>
+    </verse>
+    <verse name="c2c">
+      <lines>Find me on my knees with my soul laid bare<br/><tag name="sb"><tag name="y">Vind me op mijn knieën met mijn ziel blootgelegd</tag></tag></lines>
+    </verse>
+    <verse name="c2d">
+      <lines>Even though You're gone and I'm cracked and dry<br/><tag name="sb"><tag name="y">Ook al bent U er niet terwijl ik gebarsten ben en droog</tag></tag></lines>
+    </verse>
+    <verse name="c2e">
+      <lines>Find me in the river, I'm waiting here<br/><tag name="sb"><tag name="y">Vind me in de rivier, ik ben hier aan het wachten</tag></tag></lines>
+    </verse>
+    <verse name="e1a">
+      <lines>Come find me here<br/><tag name="sb"><tag name="y">Kom en vind me hier</tag></tag></lines>
+    </verse>
+    <verse name="e1b">
+      <lines>Find me in the river<br/><tag name="sb"><tag name="y">Vind me in de rivier</tag></tag></lines>
+    </verse>
+    <verse name="e1c">
+      <lines>Find me here<br/><tag name="sb"><tag name="y">Vind me hier</tag></tag></lines>
+    </verse>
+    <verse name="e1d">
+      <lines>Wash over me<br/><tag name="sb"><tag name="y">Overspoel me</tag></tag></lines>
+    </verse>
+    <verse name="e1e">
+      <lines>Find me here<br/><tag name="sb"><tag name="y">Vind me hier</tag></tag></lines>
+    </verse>
+  </lyrics>
+</song>

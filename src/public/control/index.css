@@ -100,3 +100,8 @@ button {
 .input-group input, button{
   display: inline-block;
 }
+
+/* =================== Styles ================== */
+span.stl-y {
+  color: #5159b9;
+}
