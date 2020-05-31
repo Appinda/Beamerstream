@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+import Server from "./modules/server/Server";
+import tryparse from 'tryparse';
 
 dotenv.config();
 app.allowRendererProcessReuse = true;
+
+const PORT = tryparse.int(process.env.PORT) || 3000;
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -56,3 +60,10 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+// Server
+let server: Server = new Server(PORT);
+server.start()
+.then(() => {
+  console.log(`Server listening at *:${PORT}.`);
+});
