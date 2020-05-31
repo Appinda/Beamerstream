@@ -4,9 +4,9 @@
   "description": "Beamerstream App",
   "main": "build/index.js",
   "scripts": {
-    "start": "electron build/",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --win --armv7l"
+    "start": "tsc && electron build/",
+    "pack": "tsc && electron-builder --dir",
+    "dist": "tsc && electron-builder --win --armv7l"
   },
   "author": "Appinda",
   "license": "ISC",
