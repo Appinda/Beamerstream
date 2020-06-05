@@ -1,6 +1,10 @@
 import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import Server from './Server';
+import yargs from 'yargs';
+const argv = yargs.argv;
+
+console.log(argv);
 
 // ============================================
 //                   ELECTRON
@@ -25,7 +29,7 @@ function createWindow () {
   })
 }
 
-function listen(){
+function createWindowWhenReady(){
   app.whenReady().then(() => {
     createWindow()
     
@@ -47,7 +51,18 @@ app.on('window-all-closed', () => {
 const server = new Server();
 const port = 3000;
 (async () => {
-  await server.start(port);
-  console.log(`Example app listening at http://localhost:${port}`);
-  listen();
+
+  // Express
+  let isPublic = argv["private"] == null;
+  if(!isPublic) { console.log("Public server disabled by --private parameter"); }
+
+  let conectionStr = await server.start(port, isPublic);
+  console.log(`Beamerstream Server listening at ${conectionStr}`);
+
+  // Electron
+  if(!argv.headless) {
+    createWindowWhenReady();
+  } else {
+    console.log("Windows GUI disabled by --headless parameter")
+  }
 })();

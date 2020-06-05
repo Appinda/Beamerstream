@@ -6,6 +6,7 @@ import * as path from 'path';
 class Server {
 
   private port: number = -1;
+  private isPublic: boolean;
   private io: socketio.Server;
   private app: Application;
   private server: http.Server;
@@ -32,10 +33,15 @@ class Server {
 
   public getPort(): number { return this.port; }
 
-  public async start(port: number): Promise<void>{
-    this.port = port;
-    this.server.listen(this.port, () => {
-      Promise.resolve();
+  public start(port: number, isPublic: boolean = true): Promise<string>{
+    return new Promise<string>((resolve) => {
+      this.port = port;
+      this.isPublic = isPublic;
+      let host = isPublic?'0.0.0.0':'127.0.0.1';
+      let connectionStr = host + ":" + port;
+      this.server.listen(this.port, host, () => {
+        resolve(connectionStr);
+      });
     });
   }
 
