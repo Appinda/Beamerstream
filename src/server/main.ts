@@ -2,7 +2,20 @@ import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import Server from './Server';
 import yargs from 'yargs';
-const argv = yargs.argv;
+
+const argv = 
+yargs
+.option('headless', {
+  alias: 'h',
+  type: 'boolean',
+  description: 'Run without OS interface'
+})
+.option('private', {
+  alias: 'p',
+  type: 'boolean',
+  description: 'Run without public server'
+})
+.argv;
 
 console.log(argv);
 
