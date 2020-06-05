@@ -1,5 +1,6 @@
 import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
+import Server from './Server';
 
 // ============================================
 //                   ELECTRON
@@ -43,13 +44,10 @@ app.on('window-all-closed', () => {
 //                    SERVER
 // ============================================
 
-const express = require('express')
-const server = express()
-const port = 3000
-
-server.use('/', express.static(path.join(__dirname, '../wwwroot')));
-
-server.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+const server = new Server();
+const port = 3000;
+(async () => {
+  await server.start(port);
+  console.log(`Example app listening at http://localhost:${port}`);
   listen();
-});
+})();

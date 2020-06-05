@@ -1,0 +1,48 @@
+import express, {Application} from 'express';
+import http from 'http';
+import socketio from 'socket.io';
+import * as path from 'path';
+
+class Server {
+
+  private port: number = -1;
+  private io: socketio.Server;
+  private app: Application;
+  private server: http.Server;
+
+  constructor(){
+    this.app = express();
+    this.server = new http.Server(this.app);
+    this.io = socketio(this.server);    
+
+    this.setupRouter();
+  }
+
+  private setupRouter(): void{
+    this.app.use('/', express.static(path.join(__dirname, '../wwwroot')));
+
+    this.io.on('connection', (socket) => {
+      console.log('A user connected to websocket');
+    
+      socket.on('disconnect', () => {
+         console.log('A user disconnected');
+      });
+    });    
+  }
+
+  public getPort(): number { return this.port; }
+
+  public async start(port: number): Promise<void>{
+    this.port = port;
+    this.server.listen(this.port, () => {
+      Promise.resolve();
+    });
+  }
+
+  public stop(): void{
+    this.server.close();
+  }
+
+}
+
+export default Server;
