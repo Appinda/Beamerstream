@@ -29,6 +29,7 @@ export default {
   */
   plugins: [
     '~/plugins/jquery.js',
+    '~/plugins/beamerstream.js'
   ],
   /*
   ** Nuxt.js dev-modules
