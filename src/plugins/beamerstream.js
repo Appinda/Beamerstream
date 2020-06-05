@@ -17,6 +17,15 @@ class BeamerstreamService {
   constructor(){
     this.output = new Live();
     this.preview = new Live();
+    this.socket = io();
+  }
+
+  getSong(){
+
+  }
+
+  getSonglist(){
+    
   }
 
 }
