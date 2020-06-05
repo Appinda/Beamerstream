@@ -62,6 +62,6 @@ export default {
     }
   },
   generate: {
-    dir: "generate"
+    dir: "wwwroot"
   }
 }

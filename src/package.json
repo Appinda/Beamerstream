@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "Beamerstream App",
   "author": "Appinda",
-  "main": "server/main.js",
+  "main": "src/main.js",
   "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "electron .",
+    "start": "tsc && yarn generate && electron .",
     "generate": "nuxt generate",
-    "pack": "yarn generate && electron-builder --dir",
-    "dist": "yarn generate && electron-builder --x64 --win zip --win nsis",
+    "pack": "tsc && yarn generate && electron-builder --dir",
+    "dist": "tsc && yarn generate && electron-builder --x64 --win zip --win nsis",
     "postinstall": "electron-builder install-app-deps",
-    "clean": "rimraf generate && rimraf dist"
+    "clean": "rimraf wwwroot && rimraf dist && rimraf src"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
@@ -25,14 +25,15 @@
   },
   "devDependencies": {
     "electron": "^9.0.2",
-    "electron-builder": "^22.7.0"
+    "electron-builder": "^22.7.0",
+    "typescript": "^3.9.5"
   },
   "build": {
     "win": {},
     "asar": true,
     "files": [
-      "server",
-      "generate",
+      "src",
+      "wwwroot",
       "**/node_modules/*/**",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
       "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",

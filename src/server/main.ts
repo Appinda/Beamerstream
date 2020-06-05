@@ -1,5 +1,5 @@
-const {app, BrowserWindow} = require('electron')
-const path = require('path')
+import {app, BrowserWindow} from 'electron';
+import * as path from 'path';
 
 // ============================================
 //                   ELECTRON
@@ -47,7 +47,7 @@ const express = require('express')
 const server = express()
 const port = 3000
 
-server.use('/', express.static(path.join(__dirname, '../generate')));
+server.use('/', express.static(path.join(__dirname, '../wwwroot')));
 
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

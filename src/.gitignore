@@ -1,4 +1,7 @@
-/generate
+/wwwroot
+/src
+/dist
+/build
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -31,9 +34,6 @@ bower_components
 
 # node-waf configuration
 .lock-wscript
-
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
 
 # Dependency directories
 node_modules/
@@ -68,9 +68,6 @@ typings/
 
 # nuxt.js build output
 .nuxt
-
-# Nuxt generate
-dist
 
 # vuepress build output
 .vuepress/dist
