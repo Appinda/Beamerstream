@@ -1,29 +1,52 @@
 <template>
   <b-row>
     <b-col>
-      <h1>Control</h1>
-      <b-row>
-        <b-col lg="4" md="4" sm="12">
-          <div class="songs">
-            <div class="select songlist" style="height: 100%"></div>
-          </div>
+      <b-row class="mt-4">
+        <b-col md="3" sm="12">
+          <b-card>
+            <template v-slot:header>
+              <h6 class="mb-0">Songlist</h6>
+            </template>
+            <b-card-text>Header and footers using slots.</b-card-text>
+            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <template v-slot:footer>
+              <em>Footer Slot</em>
+            </template>
+          </b-card>
         </b-col>
-        <b-col lg="4" md="4" sm="12">
-          <b-row>
-            <b-col md="12" cols="6">
-              <b-button block @click="hide">Hide</b-button>
-            </b-col>
-            <b-col md="12" cols="6">
-              <b-button block @click="fade">Fade away</b-button>
-            </b-col>
-          </b-row>
+        <b-col md="6" sm="12">
+          <b-card>
+            <template v-slot:header>
+              <h6 class="mb-0">Panel</h6>
+            </template>
+            <b-card-text>Header and footers using slots.</b-card-text>
+            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <template v-slot:footer>
+              <em>Footer Slot</em>
+            </template>
+          </b-card>
         </b-col>
-        <b-col lg="4" md="4" sm="12">
-          <div class="output">
-            <div class="select outputlist" style="height: 100%">
-              <div v-for="(item, index) in currentSong" @click="selectVerse" :index="index"  :key="index" :class="{ active: currentVerseIndex==index }">{{item}}</div>
-            </div>
-          </div>
+        <b-col md="3" sm="12">
+          <b-card>
+            <template v-slot:header>
+              <h6 class="mb-0">Controls</h6>
+            </template>
+            <b-button-group class="w-100 mb-1">
+              <b-button variant="light">
+                <b-icon icon="square-fill"></b-icon>
+              </b-button>
+              <b-button variant="secondary">
+                <b-icon icon="card-image"></b-icon>
+              </b-button>
+              <b-button variant="light">
+                <b-icon icon="card-text"></b-icon>
+              </b-button>
+            </b-button-group>
+            <b-button-group size="sm" class="w-100">
+              <b-button variant="light">Cut</b-button>
+              <b-button variant="light">Fade</b-button>
+            </b-button-group>
+          </b-card>
         </b-col>
       </b-row>
     </b-col>
@@ -40,36 +63,39 @@ export default {
     songlist: []
   }),
   methods: {
-    hide(){
+    hide() {
       this.currentVerseIndex = null;
     },
-    fade(){
+    fade() {
       this.currentVerseIndex = null;
     },
-    selectVerse(e){
+    selectVerse(e) {
       let index = parseInt(e.target.getAttribute("index"));
-      if(this.currentVerseIndex == index) return false; // If already selected, return
+      if (this.currentVerseIndex == index) return false; // If already selected, return
       this.currentVerseIndex = index;
       return true;
     },
-    prevVerse(){
-      if(this.currentVerseIndex == null || this.currentVerseIndex === 0) return false;
+    prevVerse() {
+      if (this.currentVerseIndex == null || this.currentVerseIndex === 0)
+        return false;
       this.currentVerseIndex--;
       return true;
     },
-    nextVerse(){
-      if(this.currentVerseIndex == null || this.currentVerseIndex === this.currentSong.length-1) return false;
+    nextVerse() {
+      if (
+        this.currentVerseIndex == null ||
+        this.currentVerseIndex === this.currentSong.length - 1
+      )
+        return false;
       this.currentVerseIndex++;
       return true;
     }
   },
-  computed: {
-
-  },
-  mounted(){
-    $(document).on('keydown', (e) => {
+  computed: {},
+  mounted() {
+    $(document).on("keydown", e => {
       // console.log(e);
-      switch(e.code){
+      switch (e.code) {
         case "ArrowUp":
           this.prevVerse();
           break;
