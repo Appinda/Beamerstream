@@ -32,6 +32,7 @@ export default {
   */
   plugins: [
     '~/plugins/jquery.js',
+    '~/plugins/socket.js',
     '~/plugins/beamerstream.js'
   ],
   /*
@@ -69,7 +70,6 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    vendor: ["jquery", "bootstrap"],
     plugins: [
       new webpack.ProvidePlugin({
         $: "jquery"

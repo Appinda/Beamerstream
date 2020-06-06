@@ -7,8 +7,10 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <b-card-text>Header and footers using slots.</b-card-text>
-            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <div class="songlist bs-select">
+              <div v-show="songlist" v-for="(item, index) in songlist" :key="index" :data-id="item.id" @dblclick="loadSong" @click="selectSong">{{item.name}}<span class="author">{{item.author}}</span></div>
+              <div v-if="!songlist" class="error">Could not load songlist</div>
+            </div>
             <template v-slot:footer>
               <em>Footer Slot</em>
             </template>
@@ -59,8 +61,7 @@ export default {
   layout: "control",
   data: () => ({
     currentVerseIndex: null,
-    currentSong: [],
-    songlist: []
+    currentSong: []
   }),
   methods: {
     hide() {
@@ -89,6 +90,14 @@ export default {
         return false;
       this.currentVerseIndex++;
       return true;
+    },
+    selectSong(e){
+      e.preventDefault();
+      console.log("SS", e.target.getAttribute('data-id'));
+    },
+    loadSong(e){
+      e.preventDefault();
+      console.log("LS", e.target.getAttribute('data-id'));
     }
   },
   computed: {},
@@ -104,6 +113,14 @@ export default {
           break;
       }
     });
+
+    this.$beamerstream.on('setSonglist', (songlist) => {
+      this.songlist = songlist;
+    });
+  },
+  async asyncData({app}){
+    let songlist = await app.$beamerstream.getSonglist();
+    return { songlist };
   }
 };
 </script>
@@ -149,6 +166,37 @@ export default {
 .songlist {
   > div small {
     color: #888;
+  }
+  .error {
+    color: red;
+  }
+}
+
+.card .bs-select {
+  margin: -20px;
+}
+.bs-select {
+  > div:not(.error) {
+    padding: 2px 10px;
+    &:not(:last-child){
+      border-bottom: 1px solid #ddd;
+    }
+    cursor: pointer;
+    span.author {
+      margin-left: 10px;
+      color: #999;
+      &::before{
+        margin-right: 3px;
+        content: '-';
+      }
+    }
+    &:hover {
+      background-color: #007bff;
+      color: white;
+      span.author {
+        color: white;
+      }  
+    }
   }
 }
 </style>

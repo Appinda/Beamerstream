@@ -17,18 +17,37 @@ class Server {
     this.io = socketio(this.server);    
 
     this.setupRouter();
+    this.setupWebsocket();
   }
 
   private setupRouter(): void{
     this.app.use('/', express.static(path.join(__dirname, '../wwwroot')));
+  }
 
+  private setupWebsocket(){
     this.io.on('connection', (socket) => {
       console.log('A user connected to websocket');
     
+      socket.on('getSonglist', () => {
+         socket.emit('getSonglist', [
+          {
+            name: 'Song 1',
+            author: 'Author'
+          },
+          {
+            name: 'Song 2',
+            author: 'Author'
+          },
+          {
+            name: 'Song 3',
+            author: 'Author'
+          }
+        ])
+      });
       socket.on('disconnect', () => {
          console.log('A user disconnected');
       });
-    });    
+    });
   }
 
   public getPort(): number { return this.port; }
