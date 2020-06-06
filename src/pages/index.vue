@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <h1>Beamerstream is running!</h1>
-        <nuxt-link to="/control">Control</nuxt-link>
+        <nuxt-link to="/client">Control</nuxt-link>
         <nuxt-link to="/preview">Preview</nuxt-link>
         <nuxt-link to="/output">Output</nuxt-link>
       </b-col>
