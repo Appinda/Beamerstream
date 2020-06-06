@@ -51,6 +51,12 @@ export default {
     '@nuxtjs/dotenv',
   ],
   /*
+  ** BootstrapVue Icons
+  */
+  bootstrapVue: {
+    icons: true
+  },
+  /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
