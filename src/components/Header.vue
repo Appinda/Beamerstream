@@ -9,6 +9,7 @@
         <b-navbar-nav>
           <b-nav-item to="/control">Control</b-nav-item>
           <b-nav-item to="/control/songs">Songs</b-nav-item>
+          <b-nav-item to="/control/settings"><b-icon-gear-fill/></b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
