@@ -1,7 +1,7 @@
 export default ({ app, error, $nuxt }, inject) => {
   class Socket {
 
-    initSocket(){
+    connect(){
       console.info("Connecting to server..");
       return new Promise((resolve, reject) => {
         if(process.env.DEV_PORT) {
@@ -26,8 +26,8 @@ export default ({ app, error, $nuxt }, inject) => {
     }
   
     async getSonglist(){
-      if(!this.connected) await this.initSocket();
       return new Promise((resolve, reject) => {
+        if(!this.connected) reject({ message: "Socket not connected"});
         // Listener once for return
         this.socket.once('getSonglist', (songlist) => {
           resolve(songlist);

@@ -49,8 +49,11 @@ export default ({ app }, inject) => {
   
     }
   
-    async getSonglist(){
-      return await app.socket.getSonglist()
+    connect(){
+      return app.socket.connect()
+    }
+    getSonglist(){
+      return app.socket.getSonglist()
     }
   
   }
