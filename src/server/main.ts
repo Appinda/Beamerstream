@@ -5,19 +5,29 @@ import yargs from 'yargs';
 
 const argv = 
 yargs
+.group(['headless', 'private', 'port'], 'Run')
 .option('headless', {
   alias: 'h',
   type: 'boolean',
   description: 'Run without OS interface'
 })
 .option('private', {
-  alias: 'p',
   type: 'boolean',
   description: 'Run without public server'
 })
+.option('port', {
+  alias: 'p',
+  type: 'number',
+  description: 'Run on other port',
+  default: 3000
+})
+.group('devport', 'Development')
+.option('devport', {
+  alias: 'dp',
+  type: 'number',
+  description: 'Run on other port',
+})
 .argv;
-
-console.log(argv);
 
 // ============================================
 //                   ELECTRON
@@ -35,7 +45,9 @@ function createWindow () {
     }
   });
 
-  mainWindow.loadURL('http://localhost:3000');
+  const url = `http://localhost:${argv.devport||argv.port}`;
+
+  mainWindow.loadURL(url);
   mainWindow.maximize();
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
@@ -62,14 +74,14 @@ app.on('window-all-closed', () => {
 // ============================================
 
 const server = new Server();
-const port = 3000;
+
 (async () => {
 
   // Express
   let isPublic = argv["private"] == null;
   if(!isPublic) { console.log("Public server disabled by --private parameter"); }
 
-  let conectionStr = await server.start(port, isPublic);
+  let conectionStr = await server.start(argv.port, isPublic);
   console.log(`Beamerstream Server listening at ${conectionStr}`);
 
   // Electron

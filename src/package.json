@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "tsc && yarn generate && electron .",
+    "build": "cross-env nuxt build",
+    "start": "tsc && electron .",
     "generate": "nuxt generate",
     "pack": "tsc && yarn generate && electron-builder --dir",
     "dist": "tsc && yarn generate && electron-builder --x64 --win zip --win nsis",
