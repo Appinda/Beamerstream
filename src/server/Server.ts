@@ -2,6 +2,7 @@ import express, {Application} from 'express';
 import http from 'http';
 import socketio from 'socket.io';
 import * as path from 'path';
+import AssetLoader from './modules/AssetLoader';
 
 class Server {
 
@@ -25,24 +26,15 @@ class Server {
   }
 
   private setupWebsocket(){
+
+    let loader: AssetLoader = new AssetLoader();
+
     this.io.on('connection', (socket) => {
       console.log('A user connected to websocket');
     
-      socket.on('getSonglist', () => {
-         socket.emit('getSonglist', [
-          {
-            name: 'Song 1',
-            author: 'Author'
-          },
-          {
-            name: 'Song 2',
-            author: 'Author'
-          },
-          {
-            name: 'Song 3',
-            author: 'Author'
-          }
-        ])
+      socket.on('getSonglist', async () => {
+        let songlist = await loader.getSonglist();
+        socket.emit('getSonglist', songlist);
       });
       socket.on('disconnect', () => {
          console.log('A user disconnected');
