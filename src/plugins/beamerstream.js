@@ -50,11 +50,7 @@ export default ({ app }, inject) => {
     }
   
     async getSonglist(){
-      try {
-        return await app.socket.getSonglist()
-      }catch(e){
-        return false;
-      }
+      return await app.socket.getSonglist()
     }
   
   }

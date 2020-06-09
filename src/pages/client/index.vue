@@ -118,8 +118,9 @@ export default {
       this.songlist = songlist;
     });
   },
-  async asyncData({app}){
+  async asyncData({app, error}){
     let songlist = await app.$beamerstream.getSonglist();
+    // error("Could not connect to server");
     return { songlist };
   }
 };

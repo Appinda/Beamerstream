@@ -1,23 +1,42 @@
-class Socket {
+export default ({ app, error, $nuxt }, inject) => {
+  class Socket {
 
-  constructor(){
-    this.socket = io();
-  }
-
-  getSonglist(){
-    return new Promise((resolve, reject) => {
-      this.socket.once('getSonglist', (songlist) => {
-        resolve(songlist);
+    initSocket(){
+      console.info("Connecting to server..");
+      return new Promise((resolve, reject) => {
+        if(process.env.DEV_PORT) {
+          // Parse first to prevent invalid (string type) input
+          const port = parseInt(process.env.DEV_PORT);
+          const address = `localhost:${port}`;
+          this.socket = io(address);
+          this.socket.once('connect', (event) => {
+            this.connected = true;
+            console.info("Connected to server");
+            resolve();
+          });
+          this.socket.once('connect_error', (event) => {
+            reject({ message: "Cannot connect to server", data: {address, event}});
+          });
+          this.socket.once('connect_timeout', (event) => {
+            reject({ message: "Server connection timed out", data: {address, event}});
+          });
+        }
+        else this.socket = io();
       });
-      this.socket.emit('getSonglist');
-      setTimeout(() => {
-        reject("Could not get songlist");
-      }, 2000);
-    });
+    }
+  
+    async getSonglist(){
+      if(!this.connected) await this.initSocket();
+      return new Promise((resolve, reject) => {
+        // Listener once for return
+        this.socket.once('getSonglist', (songlist) => {
+          resolve(songlist);
+        });
+        this.socket.emit('getSonglist');
+      });
+    }
+  
   }
 
-}
-
-export default ({ app }, inject) => {
   app.socket = new Socket()
 }
