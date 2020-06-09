@@ -2,6 +2,7 @@ export default ({ app, error, $nuxt }, inject) => {
   class Socket {
 
     connect(){
+      if(this.socket) return;
       console.info("Connecting to server..");
       return new Promise((resolve, reject) => {
         if(process.env.DEV_PORT) {
