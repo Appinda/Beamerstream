@@ -178,6 +178,7 @@ export default {
   margin: -20px;
 }
 .bs-select {
+  @include noselect;
   > div:not(.error) {
     padding: 2px 10px;
     &:not(:last-child){

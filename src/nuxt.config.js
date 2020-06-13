@@ -29,6 +29,7 @@ export default {
   ** Global CSS
   */
   css: [
+    './assets/style/theme.scss',
   ],
   /*
   ** Plugins to load before mounting the App
@@ -42,6 +43,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/style-resources',
   ],
   /*
   ** Nuxt.js modules
@@ -52,8 +54,17 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
+    '@nuxtjs/dotenv'
   ],
+  /*
+  ** StyleResources
+  */
+  styleResources: {
+    scss: [
+      './assets/style/vars/*.scss',
+      './assets/style/abstracts/_mixins.scss' // use underscore "_" & also file extension ".scss"
+    ],
+  },
   /*
   ** BootstrapVue Icons
   */
