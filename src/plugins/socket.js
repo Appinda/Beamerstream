@@ -33,7 +33,7 @@ export default ({ app, error, $nuxt }, inject) => {
         this.socket.once('getSonglist', (songlist) => {
           resolve(songlist);
         });
-        this.socket.emit('getSonglist');
+        this.socket.emit('api', `{songlist {id name author ccli}}`);
       });
     }
   

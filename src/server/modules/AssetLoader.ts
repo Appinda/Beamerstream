@@ -18,7 +18,10 @@ class AssetLoader {
         if(err || !file) { reject(err); return; }
         let rawsong = JSON.parse(file);
         resolve({
-          lyrics: rawsong.lyrics,
+          lyrics: {
+            order: rawsong.lyrics.order,
+            verses: Object.keys(rawsong.lyrics).filter(x => x != "order").map(x => ({ name: x, text: rawsong.lyrics[x] }))
+          },
           meta: {
             author: rawsong.meta.author,
             ccli: rawsong.meta.ccli,

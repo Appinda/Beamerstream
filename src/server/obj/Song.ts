@@ -7,7 +7,11 @@ type SongMeta = {
 }
 type Lyrics = {
   order: string,
-  [name: string]: string
+  verses: Verse[]
+}
+type Verse = {
+  name: string,
+  text: string
 }
 type Song = {
   meta: SongMeta,
