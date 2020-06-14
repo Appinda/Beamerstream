@@ -4,8 +4,6 @@ import socketio from 'socket.io';
 import * as path from 'path';
 import GraphQLRouter from './modules/GraphQL/GraphQLRouter';
 
-import AssetLoader from './modules/AssetLoader';
-
 class Server {
 
   private port: number = -1;
@@ -30,8 +28,6 @@ class Server {
   }
 
   private setupWebsocket(): void {
-
-    let loader: AssetLoader = new AssetLoader();
 
     this.io.on('connection', (socket) => {
       console.log('A user connected to websocket');

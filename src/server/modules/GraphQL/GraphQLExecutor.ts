@@ -1,4 +1,4 @@
-import AssetLoader from "../AssetLoader";
+import assetloader from "../AssetLoader";
 import { buildSchema, GraphQLSchema, graphql, ExecutionResult, Source } from "graphql";
 
 class GraphQLExecutor {
@@ -51,14 +51,12 @@ class GraphQLExecutor {
 
     // The root provides a resolver function for each API endpoint
 
-    let loader: AssetLoader = new AssetLoader();
-
     this.root = {
       songlist: () => {
-        return loader.getSonglist();
+        return assetloader.getSonglist();
       },
       song: (args) => {
-        return loader.getSong(args.id);
+        return assetloader.getSong(args.id);
       },
       themes: () => {
         return [{ id: 1, name: "Theme" }];

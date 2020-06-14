@@ -76,6 +76,17 @@ class AssetLoader {
     let songlist = await this.loadSongMetas();
     return songlist;
   }
+
+
+  public preloadSongs(): Promise<boolean> {
+    return new Promise((resolve) => {
+      console.log("Loading songs..");
+      setTimeout(() => {
+        console.log("Loading songs..DONE");
+        resolve(true);
+      }, 4000);
+    });
+  }
 }
 
-export default AssetLoader;
+export default new AssetLoader();

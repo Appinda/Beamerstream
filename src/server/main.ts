@@ -2,6 +2,8 @@ import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import Server from './Server';
 import yargs from 'yargs';
+import assetLoader from './modules/AssetLoader';
+import { isInterfaceType } from 'graphql';
 
 const argv = 
 yargs
@@ -28,6 +30,19 @@ yargs
   description: 'Run on other port',
 })
 .argv;
+
+// ============================================
+//                    HELPERS
+// ============================================
+
+async function preload () {
+  console.log("Preload initiated");
+  console.log("Loading assets..");
+  await Promise.all([
+    assetLoader.preloadSongs()
+  ]);
+  console.log("Loading assets..DONE");
+}
 
 // ============================================
 //                   ELECTRON
@@ -77,8 +92,10 @@ const server = new Server();
 
 (async () => {
 
+  await preload();
+
   // Express
-  let isPublic = argv["private"] == null;
+  let isPublic = !argv["private"];
   if(!isPublic) { console.log("Public server disabled by --private parameter"); }
 
   let conectionStr = await server.start(argv.port, isPublic);
