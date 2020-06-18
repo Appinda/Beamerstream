@@ -16,8 +16,7 @@ class GraphQLRouter {
   private setupRoutes(): void {
     this.router.use('/', graphqlHTTP({
       schema: this.executor.getSchema(),
-      rootValue: this.executor.getRoot(),
-      graphiql: true,
+      graphiql: true
     }));
   }
 

@@ -1,81 +1,92 @@
 import assetloader from "../AssetLoader";
-import { buildSchema, GraphQLSchema, graphql, ExecutionResult, Source } from "graphql";
+import {
+  graphql,
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLNonNull,
+  ExecutionResult,
+  Source
+} from 'graphql';
 
 class GraphQLExecutor {
 
-  public schema: GraphQLSchema
-  public root: unknown;
+  private schema: GraphQLSchema;
 
   constructor() {
     this.setupSchemas();
   }
 
   private setupSchemas() {
-    this.schema = buildSchema(`
-    type Query {
-      songlist: [SongMeta]
-      song(id: String!): Song
-      themes: [Theme]
-      theme(id: String!): Theme
-    }
 
-    type Song {
-      meta: SongMeta!,
-      lyrics: Lyrics!,
-      themeid: Int!
-    }
+    const Song = new GraphQLObjectType({
+      name: 'Song',
+      fields: () => ({
+        meta: { type: SongMeta },
+        lyrics: { type: Lyrics },
+        themeid: { type: GraphQLNonNull(GraphQLInt) },
+      })
+    });
+    const SongMeta = new GraphQLObjectType({
+      name: 'SongMeta',
+      fields: () => ({
+        id: { type: GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        filename: { type: GraphQLNonNull(GraphQLString) },
+        author: { type: GraphQLNonNull(GraphQLString) },
+        ccli: { type: GraphQLNonNull(GraphQLString) }
+      })
+    });
+    const Lyrics = new GraphQLObjectType({
+      name: 'Lyrics',
+      fields: () => ({
+        order: { type: GraphQLNonNull(GraphQLString) },
+        verses: { type: GraphQLList(Verse) },
+      })
+    });
+    const Verse = new GraphQLObjectType({
+      name: 'Verse',
+      fields: () => ({
+        name: { type: GraphQLNonNull(GraphQLString) },
+        text: { type: GraphQLNonNull(GraphQLString) },
+      })
+    });
 
-    type SongMeta {
-      id: String!
-      name: String!
-      filename: String!
-      author: String!
-      ccli: String!
-    }
+    const Query = new GraphQLObjectType({
+      name: 'Query',
+      fields: () => ({
+        song: {
+          type: Song,
+          args: {
+            id: { type: GraphQLNonNull(GraphQLString) }
+          },
+          resolve: (obj, args) => assetloader.getSong(args.id)
+        },
+        songlist: {
+          type: new GraphQLList(SongMeta),
+          resolve: () => {
+            return assetloader.getSonglist()
+            .then(songlist => {
+              return songlist;
+            });
+          }
+        }
+      })
+    })
 
-    type Lyrics {
-      order: String!
-      verses: [Verse]
-    }
-
-    type Verse {
-      name: String
-      text: String
-    }
-
-    type Theme {
-      id: Int!
-      name: String!
-    }
-  `);
-
-    // The root provides a resolver function for each API endpoint
-
-    this.root = {
-      songlist: () => {
-        return assetloader.getSonglist();
-      },
-      song: (args) => {
-        return assetloader.getSong(args.id);
-      },
-      themes: () => {
-        return [{ id: 1, name: "Theme" }];
-      },
-      theme: (args) => {
-        return { id: args.id, name: "Theme" };
-      }
-    };
+    this.schema = new GraphQLSchema({
+      query: Query
+    })
   }
 
   public getSchema(): GraphQLSchema {
     return this.schema;
   }
-  public getRoot(): unknown {
-    return this.root;
-  }
 
   public execute(query: string | Source): Promise<ExecutionResult<{ [key: string]: any; }>> {
-    return graphql(this.schema, query, this.root)
+    return graphql(this.schema, query)
       .then((response) => {
         return response;
       })
