@@ -1,31 +1,12 @@
+import CacheStorage from "./cache";
+import Socket from "./socket";
+
 export default ({ app }, inject) => {
-  let data = {
-    songlist: [{
-      id: '1',
-      name: 'Everyday',
-      author: 'Hillsong'
-    },
-    {
-      id: '2',
-      name: 'Everyday',
-      author: 'Hillsong'
-    },
-    {
-      id: '3',
-      name: 'Everyday',
-      author: 'Hillsong'
-    },
-    {
-      id: '4',
-      name: 'Everyday',
-      author: 'Hillsong'
-    }]
-  }
 
   class Live {
   
     constructor(){
-  
+       
     }
   
     on(trigger, callback){
@@ -37,8 +18,11 @@ export default ({ app }, inject) => {
   class BeamerstreamService {
   
     constructor(){
+      console.log("Helo")
       this.output = new Live();
       this.preview = new Live();
+      this.cache = new CacheStorage();
+      this.socket = new Socket();
     }
   
     on(trigger, callback){
@@ -50,10 +34,14 @@ export default ({ app }, inject) => {
     }
   
     connect(){
-      return app.socket.connect()
+      return this.socket.connect()
     }
-    getSonglist(){
-      return app.socket.getSonglist()
+    async getSonglist(){
+      let cached = this.cache.getSonglist();
+      if(cached) return cached;
+      let fetched = await this.socket.getSonglist();
+      this.cache.setSonglist(fetched);
+      return fetched;
     }
   
   }
