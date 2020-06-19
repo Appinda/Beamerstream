@@ -7,9 +7,7 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <div class="songlist bs-select">
-              <div v-for="(item, index) in songlist" :key="index" :data-id="item.id" @dblclick="loadSong" @click="selectSong">{{item.name}}<span class="author">{{item.author}}</span></div>
-            </div>
+            <bs-songlist :songlist="songlist"/>
             <template v-slot:footer>
               <em>Footer Slot</em>
             </template>
@@ -91,14 +89,6 @@ export default {
         return false;
       this.currentVerseIndex++;
       return true;
-    },
-    selectSong(e){
-      e.preventDefault();
-      console.log("SS", e.target.getAttribute('data-id'));
-    },
-    loadSong(e){
-      e.preventDefault();
-      console.log("LS", e.target.getAttribute('data-id'));
     }
   },
   computed: {
@@ -132,78 +122,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.select {
-  border: 1px solid #aaa;
-  background-color: #f8f8f8;
-  overflow-y: scroll;
-  .emptytext {
-    text-align: center;
-    color: #888;
-    margin-top: 40%;
-  }
-  > div {
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #ccc;
-    background-color: #fff;
-    cursor: pointer;
-    transition: background-color 20ms;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently */
-  }
-  > div:not(:first-child) {
-    border-top: 1px solid #ccc;
-  }
-  > div:hover {
-    background-color: #eeeeff;
-  }
-  > div.active {
-    background-color: #449bff;
-    border-bottom-color: #2c64a5;
-    border-top-color: #2c64a5;
-    color: white;
-  }
-  > div.active small {
-    color: #eee;
-  }
-}
-.songlist {
-  > div small {
-    color: #888;
-  }
-  .error {
-    color: red;
-  }
-}
 
-.card .bs-select {
-  margin: -20px;
-}
-.bs-select {
-  @include noselect;
-  > div:not(.error) {
-    padding: 2px 10px;
-    &:not(:last-child){
-      border-bottom: 1px solid #ddd;
-    }
-    cursor: pointer;
-    span.author {
-      margin-left: 10px;
-      color: #999;
-      &::before{
-        margin-right: 3px;
-        content: '-';
-      }
-    }
-    &:hover {
-      background-color: #007bff;
-      color: white;
-      span.author {
-        color: white;
-      }  
-    }
-  }
-}
 </style>

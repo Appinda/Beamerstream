@@ -36,6 +36,7 @@ export default {
   */
   plugins: [
     '~/plugins/jquery.js',
+    '~/plugins/components.js',
     '~/plugins/beamerstream.js'
   ],
   /*
