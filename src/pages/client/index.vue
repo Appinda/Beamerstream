@@ -8,8 +8,7 @@
               <h6 class="mb-0">Songlist</h6>
             </template>
             <div class="songlist bs-select">
-              <div v-show="songlist" v-for="(item, index) in songlist" :key="index" :data-id="item.id" @dblclick="loadSong" @click="selectSong">{{item.name}}<span class="author">{{item.author}}</span></div>
-              <div v-if="!songlist" class="error">Could not load songlist</div>
+              <div v-for="(item, index) in songlist" :key="index" :data-id="item.id" @dblclick="loadSong" @click="selectSong">{{item.name}}<span class="author">{{item.author}}</span></div>
             </div>
             <template v-slot:footer>
               <em>Footer Slot</em>
@@ -56,6 +55,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: "ControlPage",
   layout: "control",
@@ -100,7 +101,11 @@ export default {
       console.log("LS", e.target.getAttribute('data-id'));
     }
   },
-  computed: {},
+  computed: {
+    songlist() {
+      return this.$store.state.cache.songlist
+    }
+  },
   mounted() {
     $(document).on("keydown", e => {
       // console.log(e);
@@ -119,10 +124,9 @@ export default {
     });
   },
   async asyncData({app, error}){
-    await app.$beamerstream.connect();
-    let songlist = await app.$beamerstream.getSonglist();
-    // error("Could not connect to server");
-    return { songlist };
+    await app.$beamerstream.prepare();
+    await app.$beamerstream.prepareSonglist();
+    return {}
   }
 };
 </script>

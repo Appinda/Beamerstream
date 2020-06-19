@@ -30,7 +30,7 @@ class Socket {
     });
   }
 
-  async getSonglist() {
+  async fetchSonglist() {
     return new Promise((resolve, reject) => {
       if (!this.connected) reject({ message: "Socket not connected" });
       // Listener once for return

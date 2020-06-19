@@ -1,7 +1,6 @@
-import CacheStorage from "./cache";
 import Socket from "./socket";
 
-export default ({ app }, inject) => {
+export default ({ app, store }, inject) => {
 
   class Live {
   
@@ -21,7 +20,6 @@ export default ({ app }, inject) => {
       console.log("Helo")
       this.output = new Live();
       this.preview = new Live();
-      this.cache = new CacheStorage();
       this.socket = new Socket();
     }
   
@@ -29,19 +27,22 @@ export default ({ app }, inject) => {
       // callback("trigger: " + trigger);
     }
   
-    getSong(){
-  
-    }
-  
-    connect(){
+    prepare(){
       return this.socket.connect()
     }
-    async getSonglist(){
-      let cached = this.cache.getSonglist();
-      if(cached) return cached;
-      let fetched = await this.socket.getSonglist();
-      this.cache.setSonglist(fetched);
-      return fetched;
+    
+    async prepareSonglist(){
+      // Prepare songlist to be used in page
+      let songlist = store.state.cache.songlist;
+      let cached = true;
+      // If songlist not loaded in cache (store), fetch it from server
+      if(!songlist){
+        songlist = await this.socket.fetchSonglist();
+        store.commit('cache/setSonglist', songlist);
+        cached = false;
+      }
+      // Return
+      return { cached }
     }
   
   }
