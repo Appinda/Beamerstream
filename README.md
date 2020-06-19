@@ -7,14 +7,15 @@ If you want to download and run Beamerstream, see our [Releases](https://github.
 
 ## Technologies
 This app is using these opensource libraries and frameworks:
-- [NodeJS](https://nodejs.org/)
-- [Vue](https://vuejs.org)
-- [NuxtJS](https://nuxtjs.org)
 - [BootstrapVue](https://bootstrap-vue.org)
 - [Electron](https://www.electronjs.org)
 - [Electron-builder](https://www.electron.build)
+- [GraphQL](https://graphql.org)
+- [NodeJS](https://nodejs.org/)
+- [NuxtJS](https://nuxtjs.org)
 - [Socket.io](https://socket.io)
 - [Typescript](https://www.typescriptlang.org)
+- [Vue](https://vuejs.org)
 
 Thanks to all developers spending time contributing to those libraries and frameworks.
 
