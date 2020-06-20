@@ -16,9 +16,6 @@ export default {
     }
   }),
   mounted(){
-    this.$beamerstream.output.on('text', (text) => {
-      this.lyrics = text;
-    })
     $("#FTB").fadeOut(1000);
   }
 }

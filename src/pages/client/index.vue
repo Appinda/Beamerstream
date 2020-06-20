@@ -30,21 +30,7 @@
             <template v-slot:header>
               <h6 class="mb-0">Controls</h6>
             </template>
-            <b-button-group class="w-100 mb-1">
-              <b-button variant="light">
-                <b-icon icon="square-fill"></b-icon>
-              </b-button>
-              <b-button variant="secondary">
-                <b-icon icon="card-image"></b-icon>
-              </b-button>
-              <b-button variant="light">
-                <b-icon icon="card-text"></b-icon>
-              </b-button>
-            </b-button-group>
-            <b-button-group size="sm" class="w-100">
-              <b-button variant="light">Cut</b-button>
-              <b-button variant="light">Fade</b-button>
-            </b-button-group>
+            <bs-transitionswitch/>
           </b-card>
         </b-col>
       </b-row>
@@ -107,10 +93,6 @@ export default {
           this.nextVerse();
           break;
       }
-    });
-
-    this.$beamerstream.on('setSonglist', (songlist) => {
-      this.songlist = songlist;
     });
   },
   async asyncData({app, error}){

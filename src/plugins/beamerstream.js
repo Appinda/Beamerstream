@@ -1,31 +1,14 @@
 import Socket from "./socket";
+import Transition from '~/modules/enums/Transition';
 
 export default ({ app, store }, inject) => {
-
-  class Live {
-  
-    constructor(){
-       
-    }
-  
-    on(trigger, callback){
-      // callback("Output " + Math.round(Math.random() * 100));
-    }
-  
-  }
   
   class BeamerstreamService {
   
     constructor(){
-      console.log("Helo")
-      this.output = new Live();
-      this.preview = new Live();
       this.socket = new Socket();
     }
-  
-    on(trigger, callback){
-      // callback("trigger: " + trigger);
-    }
+
   
     prepare(){
       return this.socket.connect()
@@ -43,6 +26,15 @@ export default ({ app, store }, inject) => {
       }
       // Return
       return { cached }
+    }
+
+    setTransitionDisplay(value){
+      if(![Transition.BLACK, Transition.THEME, Transition.TEXT].includes(value)) throw new Error("value parameter must be a valid TransitionDisplay type");
+      store.commit('cache/setTransitionDisplay', value);
+    }
+    setTransitionType(value){
+      if(![Transition.CUT, Transition.FADE].includes(value)) throw new Error("value parameter must be a valid TransitionType type");
+      store.commit('cache/setTransitionType', value);
     }
   
   }
