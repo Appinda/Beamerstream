@@ -12,7 +12,7 @@ class Socket {
       if (process.env.DEV_PORT) {
         // Parse first to prevent invalid (string type) input
         const port = parseInt(process.env.DEV_PORT);
-        const address = `localhost:${port}`;
+        const address = window.location.host.split(":")[0] + ':' + port;
         this.socket = io(address);
         this.socket.once('connect', (event) => {
           this.connected = true;
