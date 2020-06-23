@@ -19,11 +19,11 @@
       }
     }
     &:hover {
-      background-color: #007bff;
+      background-color: $highlight;
+    }
+    &.active {
+      background-color: $primary;
       color: white;
-      span.author {
-        color: white;
-      }  
     }
   }
 }

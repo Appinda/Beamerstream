@@ -34,11 +34,16 @@ class Socket {
     return new Promise((resolve, reject) => {
       if (!this.connected) reject({ message: "Socket not connected" });
       // Listener once for return
-      this.socket.once('getSonglist', (songlist) => {
-        resolve(songlist);
-      });
+      this.socket.once('api', (data) => {
+        console.log("DATA INCOMING", data);
+        resolve(data.songlist);
+      });   
       this.socket.emit('api', `{songlist {id name author ccli}}`);
     });
+  }
+
+  setActiveSong(songid){
+    this.socket.emit('api', `mutation{setActiveSong(id: "${songid}")}`);
   }
 
 }

@@ -8,7 +8,8 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   ExecutionResult,
-  Source
+  Source,
+  GraphQLBoolean
 } from 'graphql';
 
 class GraphQLExecutor {
@@ -74,10 +75,27 @@ class GraphQLExecutor {
           }
         }
       })
-    })
+    });
 
+    const Mutation = new GraphQLObjectType({
+      name: 'Mutation',
+      fields: () => ({
+        setActiveSong: {
+          type: GraphQLNonNull(GraphQLBoolean),
+          args: {
+            id: { type: GraphQLNonNull(GraphQLString) },
+          },
+          resolve: (obj, args) => {
+            console.log("Set active song to " + args.id);
+            return true;
+          }
+        }
+      })
+    });
+    
     this.schema = new GraphQLSchema({
-      query: Query
+      query: Query,
+      mutation: Mutation
     })
   }
 

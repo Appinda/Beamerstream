@@ -1,5 +1,6 @@
 export const state = () => ({
   songlist: null,
+  currentSong: null,
   songs: {},
   transition: {
     display: "black",
@@ -13,6 +14,9 @@ export const mutations = {
   },
   setSong (state, song) {
     state.songs[song.meta.id] = song;
+  },
+  setCurrentSong(state, id) {
+    state.transition.currentSong = id;
   },
   setTransitionDisplay (state, value) {
     state.transition.display = value;

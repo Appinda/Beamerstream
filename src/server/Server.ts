@@ -33,9 +33,10 @@ class Server {
       console.log('A user connected to websocket');
 
       socket.on('api', (query) => {
+        console.log("API Request");
         this.graphqlRouter.getExecutor().execute(query)
         .then(({data}) => {
-          socket.emit('getSonglist', data.songlist);
+          socket.emit('api', data);
         });
       });
       socket.on('disconnect', () => {

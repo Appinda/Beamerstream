@@ -7,10 +7,8 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <bs-songlist :songlist="songlist"/>
-            <template v-slot:footer>
-              <em>Footer Slot</em>
-            </template>
+            <bs-songlist :songlist="songlist" />
+            <template v-slot:footer></template>
           </b-card>
         </b-col>
         <b-col md="6" sm="12">
@@ -18,11 +16,8 @@
             <template v-slot:header>
               <h6 class="mb-0">Panel</h6>
             </template>
-            <b-card-text>Header and footers using slots.</b-card-text>
-            <b-button href="#" variant="primary">Go somewhere</b-button>
-            <template v-slot:footer>
-              <em>Footer Slot</em>
-            </template>
+            <bs-songpanel :song="currentSong"/>
+            <template v-slot:footer></template>
           </b-card>
         </b-col>
         <b-col md="3" sm="12">
@@ -30,7 +25,7 @@
             <template v-slot:header>
               <h6 class="mb-0">Controls</h6>
             </template>
-            <bs-transitionswitch/>
+            <bs-transitionswitch />
           </b-card>
         </b-col>
       </b-row>
@@ -39,14 +34,14 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 
 export default {
   name: "ControlPage",
   layout: "control",
   data: () => ({
     currentVerseIndex: null,
-    currentSong: []
+    currentSong: null
   }),
   methods: {
     hide() {
@@ -79,7 +74,7 @@ export default {
   },
   computed: {
     songlist() {
-      return this.$store.state.cache.songlist
+      return this.$store.state.cache.songlist;
     }
   },
   mounted() {
@@ -95,14 +90,13 @@ export default {
       }
     });
   },
-  async asyncData({app, error}){
+  async asyncData({ app, error }) {
     await app.$beamerstream.prepare();
     await app.$beamerstream.prepareSonglist();
-    return {}
+    return {};
   }
 };
 </script>
 
 <style scoped lang="scss">
-
 </style>

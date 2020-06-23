@@ -4,8 +4,9 @@
       v-for="(item, index) in songlist"
       :key="index"
       :data-id="item.id"
+      :class="{active: selectedItemId==item.id}"
       @dblclick="loadSong"
-      @click="selectSong"
+      @click="selectSong(item.id)"
     >
       {{item.name}}
     </div>
@@ -18,14 +19,15 @@ export default {
   props: {
     songlist: Array
   },
+  data: () => ({
+    selectedItemId: null
+  }),
   methods: {
-    selectSong(e) {
-      e.preventDefault();
-      console.log("SS", e.target.getAttribute("data-id"));
+    selectSong(songid) {
+      this.selectedItemId = songid;
     },
     loadSong(e) {
-      e.preventDefault();
-      console.log("LS", e.target.getAttribute("data-id"));
+      this.$beamerstream.setActiveSong(this.selectedItemId);
     }
   }
 };
