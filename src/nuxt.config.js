@@ -155,7 +155,7 @@ export default {
         },
         // You can use `wss` for secure connection (recommended in production)
         // Use `null` to disable subscriptions
-        wsEndpoint: 'ws://localhost:3001/api/graphqlws', // optional
+        wsEndpoint: 'ws://localhost:3001/api/graphql', // optional
         // LocalStorage token
         tokenName: 'apollo-token', // optional
         // Enable Automatic Query persisting with Apollo Engine

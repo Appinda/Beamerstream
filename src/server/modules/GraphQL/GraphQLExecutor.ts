@@ -11,12 +11,16 @@ import {
   Source,
   GraphQLBoolean
 } from 'graphql';
+import {PubSub} from 'graphql-subscriptions';
 
 class GraphQLExecutor {
 
   private schema: GraphQLSchema;
+  private pubsub: PubSub
 
   constructor() {
+    this.pubsub = new PubSub();
+
     this.setupSchemas();
   }
 
@@ -87,7 +91,21 @@ class GraphQLExecutor {
           },
           resolve: (obj, args) => {
             console.log("Set active song to " + args.id);
+            this.pubsub.publish('ACTIVE_SONG_SET', { activeSongSet: args.id });
             return true;
+          }
+        }
+      })
+    });
+
+    const Subscription = new GraphQLObjectType({
+      name: 'Subscription',
+      fields: () => ({
+        activeSongSet: {
+          type: GraphQLString,
+          subscribe: (obj, args) => {
+            console.log("New subscription");
+            return this.pubsub.asyncIterator(['ACTIVE_SONG_SET']);
           }
         }
       })
@@ -95,7 +113,8 @@ class GraphQLExecutor {
     
     this.schema = new GraphQLSchema({
       query: Query,
-      mutation: Mutation
+      mutation: Mutation,
+      subscription: Subscription
     })
   }
 

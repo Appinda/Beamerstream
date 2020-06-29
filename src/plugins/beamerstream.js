@@ -1,6 +1,6 @@
 // import Socket from "./socket";
 import Transition from '~/modules/enums/Transition';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 export default ({ app, store }, inject) => {
   
@@ -35,6 +35,14 @@ export default ({ app, store }, inject) => {
           store.commit('cache/setSonglist', data.songlist);
           cached = false;
         });
+
+        const s = client.subscribe({
+          query: gql`subscription{activeSongSet}`
+        })
+      
+        s.subscribe({
+            next: ({ data }) => console.log(data)
+        });
       }
       // Return
       return { cached }
@@ -43,6 +51,7 @@ export default ({ app, store }, inject) => {
     setActiveSong(songid){
       const client = app.apolloProvider.defaultClient;    
       // client.query({query: gql`{songlist {id name author ccli}}`})
+      console.log(client);
       client.mutate({ mutation: gql`mutation($id: String!){setActiveSong(id: $id)}`, variables: {id: songid}})
     }
 

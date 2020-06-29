@@ -31,7 +31,7 @@ class GraphQLRouter {
 
     this.router.use('/graphiql', graphiqlExpress({
       endpointURL: '/api/graphql',
-      subscriptionsEndpoint: `ws://localhost:${this.port}/api/graphqlws`
+      subscriptionsEndpoint: `ws://localhost:${this.port}/api/graphql`
     }));
   }
 
@@ -42,7 +42,7 @@ class GraphQLRouter {
       schema: this.executor.getSchema()
     }, {
       server,
-      path: '/api/graphqlws',
+      path: '/api/graphql',
     });
   }
 
