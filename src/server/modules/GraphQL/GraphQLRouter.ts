@@ -1,65 +1,58 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-// import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-// import { makeExecutableSchema } from 'graphql-tools';
-
-// import GraphQLExecutor from './GraphQLExecutor';
+import GraphQLExecutor from './GraphQLExecutor';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import {
+  graphqlExpress,
+  graphiqlExpress,
+} from 'apollo-server-express';
+import { GraphQLSchema, execute, subscribe } from 'graphql';
+import { Server } from 'http';
 
 class GraphQLRouter {
+  private router: express.Router;
+  private executor: GraphQLExecutor;
+  private schema: GraphQLSchema;
+  private port: number;
 
-  // private router: express.Router;
-  // // private executor: GraphQLExecutor;
+  constructor(port: number) {
+    this.router = express.Router();
+    this.port = port;
+    this.executor = new GraphQLExecutor();
 
-  // constructor() {
-  //   this.router = express.Router();
-  //   // this.executor = new GraphQLExecutor();
-  //   this.setupRoutes();
-  // }
+    this.schema = this.executor.getSchema();
+    this.setupRoutes();
+  }
 
-  // private setupRoutes(): void {
+  private setupRoutes(): void {
+    this.router.use('/graphql', bodyParser.json(), graphqlExpress({
+      schema: this.schema
+    }));
 
-  //   const books = [
-  //     {
-  //       title: "Harry Potter and the Sorcerer's stone",
-  //       author: 'J.K. Rowling',
-  //     },
-  //     {
-  //       title: 'Jurassic Park',
-  //       author: 'Michael Crichton',
-  //     },
-  //   ];
-    
-  //   // The GraphQL schema in string form
-  //   const typeDefs = `
-  //     type Query { books: [Book] }
-  //     type Book { title: String, author: String }
-  //   `;
-    
-  //   // The resolvers
-  //   const resolvers = {
-  //     Query: { books: () => books },
-  //   };
-    
-  //   // Put together a schema
-  //   const schema = makeExecutableSchema({
-  //     typeDefs,
-  //     resolvers,
-  //   });
+    this.router.use('/graphiql', graphiqlExpress({
+      endpointURL: '/api/graphql',
+      subscriptionsEndpoint: `ws://localhost:${this.port}/api/graphqlws`
+    }));
+  }
 
-  //   this.router.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+  public setupWebsocket(server: Server) {
+    new SubscriptionServer({
+      execute,
+      subscribe,
+      schema: this.executor.getSchema()
+    }, {
+      server,
+      path: '/api/graphqlws',
+    });
+  }
 
-  //   // GraphiQL, a visual editor for queries
-  //   this.router.use('/graphiql', graphiqlExpress({ endpointURL: '/api/graphql' }));
-  // }
+  public getRouter(): express.Router {
+    return this.router;
+  }
 
-  // public getRouter(): express.Router {
-  //   return this.router;
-  // }
-
-  // // public getExecutor(): GraphQLExecutor {
-  // //   return this.executor;
-  // // }
-
+  public getExecutor(): GraphQLExecutor {
+    return this.executor;
+  }
 }
 
 export default GraphQLRouter

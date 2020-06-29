@@ -147,7 +147,7 @@ export default {
         httpEndpoint: 'http://localhost:3001',
         // optional
         // override HTTP endpoint in browser only
-        browserHttpEndpoint: '/graphql',
+        browserHttpEndpoint: '/api/graphql',
         // optional
         // See https://www.apollographql.com/docs/link/links/http.html#options
         httpLinkOptions: {
@@ -155,7 +155,7 @@ export default {
         },
         // You can use `wss` for secure connection (recommended in production)
         // Use `null` to disable subscriptions
-        wsEndpoint: 'ws://localhost:3001/subscriptions', // optional
+        wsEndpoint: 'ws://localhost:3001/api/graphqlws', // optional
         // LocalStorage token
         tokenName: 'apollo-token', // optional
         // Enable Automatic Query persisting with Apollo Engine
