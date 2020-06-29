@@ -1,32 +1,64 @@
 import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import GraphQLExecutor from './GraphQLExecutor';
+import bodyParser from 'body-parser';
+// import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+// import { makeExecutableSchema } from 'graphql-tools';
+
+// import GraphQLExecutor from './GraphQLExecutor';
 
 class GraphQLRouter {
 
-  private router: express.Router;
-  private executor: GraphQLExecutor;
+  // private router: express.Router;
+  // // private executor: GraphQLExecutor;
 
-  constructor() {
-    this.router = express.Router();
-    this.executor = new GraphQLExecutor();
-    this.setupRoutes();
-  }
+  // constructor() {
+  //   this.router = express.Router();
+  //   // this.executor = new GraphQLExecutor();
+  //   this.setupRoutes();
+  // }
 
-  private setupRoutes(): void {
-    this.router.use('/', graphqlHTTP({
-      schema: this.executor.getSchema(),
-      graphiql: true
-    }));
-  }
+  // private setupRoutes(): void {
 
-  public getRouter(): express.Router {
-    return this.router;
-  }
+  //   const books = [
+  //     {
+  //       title: "Harry Potter and the Sorcerer's stone",
+  //       author: 'J.K. Rowling',
+  //     },
+  //     {
+  //       title: 'Jurassic Park',
+  //       author: 'Michael Crichton',
+  //     },
+  //   ];
+    
+  //   // The GraphQL schema in string form
+  //   const typeDefs = `
+  //     type Query { books: [Book] }
+  //     type Book { title: String, author: String }
+  //   `;
+    
+  //   // The resolvers
+  //   const resolvers = {
+  //     Query: { books: () => books },
+  //   };
+    
+  //   // Put together a schema
+  //   const schema = makeExecutableSchema({
+  //     typeDefs,
+  //     resolvers,
+  //   });
 
-  public getExecutor(): GraphQLExecutor {
-    return this.executor;
-  }
+  //   this.router.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+
+  //   // GraphiQL, a visual editor for queries
+  //   this.router.use('/graphiql', graphiqlExpress({ endpointURL: '/api/graphql' }));
+  // }
+
+  // public getRouter(): express.Router {
+  //   return this.router;
+  // }
+
+  // // public getExecutor(): GraphQLExecutor {
+  // //   return this.executor;
+  // // }
 
 }
 

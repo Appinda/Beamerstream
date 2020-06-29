@@ -1,59 +1,79 @@
 import express, { Application } from 'express';
 import http from 'http';
-import socketio from 'socket.io';
 import * as path from 'path';
-import GraphQLRouter from './modules/GraphQL/GraphQLRouter';
+// import GraphQLRouter from './modules/GraphQL/GraphQLRouter';
+import {
+  graphqlExpress,
+  graphiqlExpress,
+} from 'apollo-server-express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { execute, subscribe, GraphQLSchema } from 'graphql';
+import { createServer } from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from 'graphql-tools';
+
 
 class Server {
 
   private port: number = -1;
-  private isPublic: boolean;
-  private io: socketio.Server;
+  private enableRemote: boolean;
   private app: Application;
+  // private graphqlRouter: GraphQLRouter = new GraphQLRouter();
   private server: http.Server;
-  private graphqlRouter: GraphQLRouter = new GraphQLRouter();
+  private schema: GraphQLSchema;
 
-  constructor() {
+  constructor(port: number, enableRemote: boolean = true) {
     this.app = express();
     this.server = new http.Server(this.app);
-    this.io = socketio(this.server);
+    this.port = port;
+    this.enableRemote = enableRemote;
+    this.schema = this.getSchema();
 
     this.setupRouter();
     this.setupWebsocket();
   }
 
   private setupRouter(): void {
-    this.app.use('/api', this.graphqlRouter.getRouter())
+    this.app.use('*', cors({ 
+      origin: [`http://localhost:${this.port}`, `http://localhost:3000`] ,
+      credentials: true
+    }));
+
+    this.app.use('/graphql', bodyParser.json(), graphqlExpress({
+      schema: this.schema
+    }));
+
+    this.app.use('/graphiql', graphiqlExpress({
+      endpointURL: '/graphql',
+      subscriptionsEndpoint: `ws://localhost:${this.port}/subscriptions`
+    }));
+
     this.app.use('/', express.static(path.join(__dirname, '../wwwroot')));
   }
 
   private setupWebsocket(): void {
 
-    this.io.on('connection', (socket) => {
-      console.log('A user connected to websocket');
-
-      socket.on('api', (query) => {
-        console.log("API Request");
-        this.graphqlRouter.getExecutor().execute(query)
-        .then(({data}) => {
-          socket.emit('api', data);
-        });
-      });
-      socket.on('disconnect', () => {
-        console.log('A user disconnected');
-      });
-    });
+    this.server = createServer(this.app);
   }
 
   public getPort(): number { return this.port; }
 
-  public start(port: number, isPublic: boolean = true): Promise<string> {
+  public start(): Promise<string> {
     return new Promise<string>((resolve) => {
-      this.port = port;
-      this.isPublic = isPublic;
-      let host = isPublic ? '0.0.0.0' : '127.0.0.1';
-      let connectionStr = host + ":" + port;
+      let host = this.enableRemote ? '0.0.0.0' : '127.0.0.1';
+      let connectionStr = host + ":" + this.port;
       this.server.listen(this.port, host, () => {
+        console.log("Server running!");
+        new SubscriptionServer({
+          execute,
+          subscribe,
+          schema: this.schema
+        }, {
+          server: this.server,
+          path: '/subscriptions',
+        });
+
         resolve(connectionStr);
       });
     });
@@ -61,6 +81,38 @@ class Server {
 
   public stop(): void {
     this.server.close();
+  }
+
+  private getSchema(): GraphQLSchema {
+    const books = [
+      {
+        title: "Harry Potter and the Sorcerer's stone",
+        author: 'J.K. Rowling',
+      },
+      {
+        title: 'Jurassic Park',
+        author: 'Michael Crichton',
+      },
+    ];
+    
+    // The GraphQL schema in string form
+    const typeDefs = `
+      type Query { books: [Book] }
+      type Book { title: String, author: String }
+    `;
+    
+    // The resolvers
+    const resolvers = {
+      Query: { books: () => books },
+    };
+    
+    // Put together a schema
+    const schema = makeExecutableSchema({
+      typeDefs,
+      resolvers,
+    });
+
+    return schema;
   }
 
 }

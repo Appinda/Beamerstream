@@ -81,24 +81,25 @@ function createWindowWhenReady(){
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
-})
+});
 
 
 // ============================================
 //                    SERVER
 // ============================================
 
-const server = new Server();
-
 (async () => {
 
   await preload();
 
-  // Express
-  let isPublic = !argv["private"];
-  if(!isPublic) { console.log("Public server disabled by --private parameter"); }
+  let enableRemote: boolean = !!argv["remote"];
+  if(enableRemote) { console.log("Remote enabled by --remote parameter"); }
 
-  let conectionStr = await server.start(argv.port, isPublic);
+  const server = new Server(argv.port, enableRemote);
+
+  // Express
+
+  let conectionStr = await server.start();
   console.log(`Beamerstream Server listening at ${conectionStr}`);
 
   // Electron

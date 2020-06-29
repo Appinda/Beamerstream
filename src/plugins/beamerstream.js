@@ -1,4 +1,4 @@
-import Socket from "./socket";
+// import Socket from "./socket";
 import Transition from '~/modules/enums/Transition';
 
 export default ({ app, store }, inject) => {
@@ -12,12 +12,12 @@ export default ({ app, store }, inject) => {
   class BeamerstreamService {
 
     constructor(){
-      socket = new Socket();
+      // socket = new Socket();
       setupListeners();
     }
 
     prepare(){
-      return socket.connect()
+      // return socket.connect()
     }
     
     async prepareSonglist(){
@@ -26,7 +26,8 @@ export default ({ app, store }, inject) => {
       let cached = true;
       // If songlist not loaded in cache (store), fetch it from server
       if(!songlist){
-        songlist = await socket.fetchSonglist();
+        // songlist = await socket.fetchSonglist();
+        songlist = [];
         store.commit('cache/setSonglist', songlist);
         cached = false;
       }

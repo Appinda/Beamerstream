@@ -16,9 +16,6 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
-    script: [
-      { src: "/lib/socket.io/socket.io.slim.js" }
     ]
   },
   /*
@@ -54,7 +51,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/apollo'
   ],
   /*
   ** StyleResources
@@ -89,11 +87,25 @@ export default {
         $: "jquery"
       })
     ],
+    babel: {
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            // require.resolve('@nuxt/babel-preset-app-edge'), // For nuxt-edge users
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 }
+            }
+          ]
+        ]
+      }
+    },
     /*
     ** Run ESLint on save
     */
     extend(config, { isDev, isClient }) {
-   
+
     }
   },
   /*
@@ -108,5 +120,50 @@ export default {
   server: {
     port: 3000, // default: 3000
     host: '0.0.0.0' // default: localhost
+  },
+  /*
+  ** Apollo
+  */
+  // Give apollo module options
+  apollo: {
+    authenticationType: 'Bearer', // optional, default: 'Bearer'
+    // (Optional) Default 'apollo' definition
+    defaultOptions: {
+      // See 'apollo' definition
+      // For example: default query options
+      $query: {
+        loadingKey: 'loading',
+        fetchPolicy: 'cache-and-network',
+      },
+    },
+    // optional
+    watchLoading: '~/plugins/apollo-watch-loading-handler.js',
+    // optional
+    errorHandler: '~/plugins/apollo-error-handler.js',
+    // required
+    clientConfigs: {
+      default: {
+        // required  
+        httpEndpoint: 'http://localhost:3001',
+        // optional
+        // override HTTP endpoint in browser only
+        browserHttpEndpoint: '/graphql',
+        // optional
+        // See https://www.apollographql.com/docs/link/links/http.html#options
+        httpLinkOptions: {
+          credentials: 'same-origin'
+        },
+        // You can use `wss` for secure connection (recommended in production)
+        // Use `null` to disable subscriptions
+        wsEndpoint: 'ws://localhost:3001/subscriptions', // optional
+        // LocalStorage token
+        tokenName: 'apollo-token', // optional
+        // Enable Automatic Query persisting with Apollo Engine
+        persisting: false, // Optional
+        // Use websockets for everything (no HTTP)
+        // You need to pass a `wsEndpoint` for this to work
+        websocketsOnly: true // Optional
+      }
+    }
   }
 }

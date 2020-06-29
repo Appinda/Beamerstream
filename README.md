@@ -13,7 +13,6 @@ This app is using these opensource libraries and frameworks:
 - [GraphQL](https://graphql.org)
 - [NodeJS](https://nodejs.org/)
 - [NuxtJS](https://nuxtjs.org)
-- [Socket.io](https://socket.io)
 - [Typescript](https://www.typescriptlang.org)
 - [Vue](https://vuejs.org)
 
