@@ -35,7 +35,6 @@
 
 <script>
 import { mapMutations } from "vuex";
-import gql from 'graphql-tag'
 
 export default {
   name: "ControlPage",
@@ -93,18 +92,7 @@ export default {
   },
   async asyncData({app}) {
     await app.$beamerstream.prepare();
-    // await app.$beamerstream.prepareSonglist();
-
-    // receive the associated Apollo client 
-    const client = app.apolloProvider.defaultClient;
-    
-    // but you could also call queries like this:
-    client.query({query: gql`{books{title,author}}`})
-    .then(({ data }) => {
-      console.log("books: ", data);
-    })
-
-
+    await app.$beamerstream.prepareSonglist();
     return {};
   }
 };

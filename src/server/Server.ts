@@ -12,6 +12,7 @@ import { execute, subscribe, GraphQLSchema } from 'graphql';
 import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { makeExecutableSchema } from 'graphql-tools';
+import GraphQLExecutor from './modules/GraphQL/GraphQLExecutor';
 
 
 class Server {
@@ -22,13 +23,15 @@ class Server {
   // private graphqlRouter: GraphQLRouter = new GraphQLRouter();
   private server: http.Server;
   private schema: GraphQLSchema;
+  private executor: GraphQLExecutor;
 
   constructor(port: number, enableRemote: boolean = true) {
     this.app = express();
     this.server = new http.Server(this.app);
     this.port = port;
     this.enableRemote = enableRemote;
-    this.schema = this.getSchema();
+    this.executor = new GraphQLExecutor();
+    this.schema = this.executor.getSchema();
 
     this.setupRouter();
     this.setupWebsocket();
@@ -81,38 +84,6 @@ class Server {
 
   public stop(): void {
     this.server.close();
-  }
-
-  private getSchema(): GraphQLSchema {
-    const books = [
-      {
-        title: "Harry Potter and the Sorcerer's stone",
-        author: 'J.K. Rowling',
-      },
-      {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton',
-      },
-    ];
-    
-    // The GraphQL schema in string form
-    const typeDefs = `
-      type Query { books: [Book] }
-      type Book { title: String, author: String }
-    `;
-    
-    // The resolvers
-    const resolvers = {
-      Query: { books: () => books },
-    };
-    
-    // Put together a schema
-    const schema = makeExecutableSchema({
-      typeDefs,
-      resolvers,
-    });
-
-    return schema;
   }
 
 }

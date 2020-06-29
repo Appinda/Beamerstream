@@ -1,5 +1,6 @@
 // import Socket from "./socket";
 import Transition from '~/modules/enums/Transition';
+import gql from 'graphql-tag'
 
 export default ({ app, store }, inject) => {
   
@@ -26,17 +27,23 @@ export default ({ app, store }, inject) => {
       let cached = true;
       // If songlist not loaded in cache (store), fetch it from server
       if(!songlist){
-        // songlist = await socket.fetchSonglist();
         songlist = [];
-        store.commit('cache/setSonglist', songlist);
-        cached = false;
+        const client = app.apolloProvider.defaultClient;    
+        client.query({query: gql`{songlist {id name author ccli}}`})
+        .then(({ data }) => {
+          console.log(data);
+          store.commit('cache/setSonglist', data.songlist);
+          cached = false;
+        });
       }
       // Return
       return { cached }
     }
 
     setActiveSong(songid){
-      socket.setActiveSong(songid);
+      const client = app.apolloProvider.defaultClient;    
+      // client.query({query: gql`{songlist {id name author ccli}}`})
+      client.mutate({ mutation: gql`mutation($id: String!){setActiveSong(id: $id)}`, variables: {id: songid}})
     }
 
     setTransitionDisplay(value){
