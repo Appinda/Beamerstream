@@ -1,6 +1,6 @@
 <template>
   <div class="outputPage">
-    <div id="FTB"></div>
+    <div ref="FTB" :style="styleFTB" id="FTB"></div>
     <p id="lyrics1" :style="lyricsStyle">{{lyrics}}</p>
     <div id="background"></div>
   </div>
@@ -13,10 +13,17 @@ export default {
     lyrics: "hoi",
     lyricsStyle: {
       "fontSize": "52px"
+    },
+    styleFTB: {
+      transition: "all 2s linear",
+      opacity: 0
+    },
+    styleLyrics: {
+      
     }
   }),
   mounted(){
-    $("#FTB").fadeOut(1000);
+
   }
 }
 </script>
