@@ -14,7 +14,7 @@
         <b-col md="6" sm="12">
           <b-card>
             <template v-slot:header>
-              <h6 class="mb-0">Panel</h6>
+              <h6 class="mb-0">Panel: {{currentSong}}</h6>
             </template>
             <bs-songpanel :song="currentSong"/>
             <template v-slot:footer></template>
@@ -41,7 +41,6 @@ export default {
   layout: "control",
   data: () => ({
     currentVerseIndex: null,
-    currentSong: null
   }),
   methods: {
     hide() {
@@ -75,6 +74,9 @@ export default {
   computed: {
     songlist() {
       return this.$store.state.cache.songlist;
+    },
+    currentSong() {
+      return this.$store.state.cache.currentSong;
     }
   },
   mounted() {

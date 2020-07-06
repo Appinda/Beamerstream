@@ -10,7 +10,7 @@
     >{{item.name}}</div>
   </div>
   <div v-else>
-    <p>{{emptyText}}</p>
+    <p>{{emptyText}}, {{song}}</p>
   </div>
 </div>
   

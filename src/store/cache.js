@@ -16,7 +16,7 @@ export const mutations = {
     state.songs[song.meta.id] = song;
   },
   setCurrentSong(state, id) {
-    state.transition.currentSong = id;
+    state.currentSong = id;
   },
   setTransitionDisplay (state, value) {
     state.transition.display = value;
