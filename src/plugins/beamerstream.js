@@ -31,17 +31,21 @@ export default ({ app, store }, inject) => {
         const client = app.apolloProvider.defaultClient;    
         client.query({query: gql`{songlist {id name author ccli}}`})
         .then(({ data }) => {
-          console.log(data);
           store.commit('cache/setSonglist', data.songlist);
           cached = false;
         });
 
         const s = client.subscribe({
-          query: gql`subscription{activeSongSet}`
+          query: gql`subscription{
+            activeSongSet
+          }`
         })
       
         s.subscribe({
-            next: ({ data }) => console.log(data)
+            next: ({ data }) => {
+              console.log(data)
+              store.commit('cache/setCurrentSong', data.activeSongSet);
+            }
         });
       }
       // Return
@@ -51,7 +55,6 @@ export default ({ app, store }, inject) => {
     setActiveSong(songid){
       const client = app.apolloProvider.defaultClient;    
       // client.query({query: gql`{songlist {id name author ccli}}`})
-      console.log(client);
       client.mutate({ mutation: gql`mutation($id: String!){setActiveSong(id: $id)}`, variables: {id: songid}})
     }
 
