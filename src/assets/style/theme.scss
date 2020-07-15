@@ -27,3 +27,22 @@
     }
   }
 }
+
+.tabs {
+  @include noselect;
+  .col-auto {
+    width: 20%;
+  }
+  .nav-pills{
+    background-color: $primary !important;
+    li a{
+      color: lighten($primary, 40%);
+      &.disabled {
+        color: lighten($primary, 30%)
+      }
+      &.active {
+        color: white;
+      }
+    }
+  }
+}
