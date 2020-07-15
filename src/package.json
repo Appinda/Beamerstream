@@ -30,7 +30,7 @@
     "bootstrap-vue": "^2.0.0",
     "core-js": "3",
     "express-graphql": "^0.9.0",
-    "graphql": "^15.1.0",
+    "graphql": "^15.3.0",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tag": "^2.10.3",
     "graphql-tools": "^6.0.11",
