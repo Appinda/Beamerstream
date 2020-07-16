@@ -1,9 +1,9 @@
 <template>
-  <b-row>
-    <b-col>
-      <b-row class="mt-4">
-        <b-col md="3" sm="12">
-          <b-card>
+  <b-row class="h-100">
+    <b-col class="h-100">
+      <b-row class="py-4 h-100">
+        <b-col md="3" sm="12" class="h-100">
+          <b-card class="h-100">
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
@@ -11,8 +11,8 @@
             <template v-slot:footer></template>
           </b-card>
         </b-col>
-        <b-col md="6" sm="12">
-          <b-card>
+        <b-col md="6" sm="12"  class="h-100">
+          <b-card class="h-100">
             <template v-slot:header>
               <h6 class="mb-0">Panel: {{currentSong}}</h6>
             </template>
@@ -21,12 +21,27 @@
           </b-card>
         </b-col>
         <b-col md="3" sm="12">
-          <b-card>
-            <template v-slot:header>
-              <h6 class="mb-0">Controls</h6>
-            </template>
-            <bs-transitionswitch />
-          </b-card>
+          <b-row :style="{height: '80%'}">
+            <b-col class="h-100 pb-4">
+              <b-card class="h-100">
+                <template v-slot:header>
+                  <h6 class="mb-0">Liturgy</h6>
+                </template>
+                Liturgy
+                <template v-slot:footer></template>
+              </b-card>
+            </b-col>  
+          </b-row>
+          <b-row :style="{height: '20%'}">
+            <b-col class="h-100">
+              <b-card class="h-100">
+                <template v-slot:header>
+                  <h6 class="mb-0">Controls</h6>
+                </template>
+                <bs-transitionswitch />
+              </b-card>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </b-col>

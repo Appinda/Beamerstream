@@ -18,16 +18,13 @@
             <b-form @submit="onSubmit" @reset="onReset">
               <b-form-group id="input-group-4">
                 <b-form-checkbox v-model="settings.remote.enable">Enable remote</b-form-checkbox>
-                <b-form-checkbox
-                  class="ml-4"
-                  :disabled="!settings.remote.enable"
-                  v-model="settings.remote.enableClient"
-                >Client</b-form-checkbox>
-                <b-form-checkbox
-                  class="ml-4"
-                  :disabled="!settings.remote.enable"
-                  v-model="settings.remote.enableLive"
-                >Live</b-form-checkbox>
+                <b-form-checkbox class="ml-4" :disabled="!settings.remote.enable" v-model="settings.remote.enableClient">Client</b-form-checkbox>
+                <b-form-checkbox class="ml-4" :disabled="!settings.remote.enable" v-model="settings.remote.enableLive">Live</b-form-checkbox>
+              </b-form-group>
+              <b-form-group class="ml-4" id="input-group-4">
+                <b-form-checkbox v-model="settings.remote.alerts.enable" :disabled="!settings.remote.enable">Enable alerts</b-form-checkbox>
+                <b-form-checkbox class="ml-4" :disabled="!settings.remote.enable || !settings.remote.alerts.enable" v-model="settings.remote.alerts.enableDisconnectAlert">Show disconnect message</b-form-checkbox>
+                <b-form-checkbox class="ml-4" :disabled="!settings.remote.enable || !settings.remote.alerts.enable" v-model="settings.remote.alerts.enableConnectAlert">Show connect message</b-form-checkbox>
               </b-form-group>
 
               <b-button type="reset" size="sm" variant="warning">Reset</b-button>
@@ -51,19 +48,27 @@ export default {
       remote: {
         enable: false,
         enableClient: false,
-        enableLive: false
+        enableLive: false,
+        alerts: {
+          enable: true,
+          enableDisconnectAlert: true,
+          enableConnectAlert: true,
+        }
       }
     }
   }),
+  created(){
+    this.settings = this.cloneObjectStructure(this.savedSettings);
+  },
   methods: {
     setShowAdvanced(value) {
       this.showAdvanced = value;
     },
     onSubmit() {},
-    onReset() {}
-  },
-  created() {
-    this.settings = JSON.parse(JSON.stringify(this.savedSettings));
+    onReset() {},
+    cloneObjectStructure(obj){
+      return JSON.parse(JSON.stringify(obj));
+    }
   }
 };
 </script>

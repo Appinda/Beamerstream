@@ -1,8 +1,9 @@
 <template>
   <div class="outputPage">
-    <div ref="FTB" :style="styleFTB" id="FTB"></div>
+    <!-- <div ref="FTB" :style="styleFTB" id="FTB"></div> -->
     <p id="lyrics1" :style="lyricsStyle">{{lyrics}}</p>
     <div id="background"></div>
+    <bs-livealert :show="alert.show" :color="alert.color" :bkgcolor="alert.bkgcolor" :message="alert.message" :icon="alert.icon"/>
   </div>
 </template>
 
@@ -10,7 +11,7 @@
 export default {
   name: "OutputPage",
   data: () => ({
-    lyrics: "hoi",
+    lyrics: "verse",
     lyricsStyle: {
       "fontSize": "52px"
     },
@@ -20,10 +21,47 @@ export default {
     },
     styleLyrics: {
       
+    },
+    alert: {
+      color: "",
+      bkgcolor: "",
+      icon: "",
+      message: "",
+      show: false
     }
   }),
-  mounted(){
-
+  methods: {
+    showErrorAlert(message){
+      if(this.alert.show) return false; // Allow only once alert at the time
+      this.alert = {
+        color: "white",
+        bkgcolor: "red",
+        icon: "exclamation-circle-fill",
+        message: message,
+        show: true,
+        timeout: 3000
+      } 
+      setTimeout(() => {
+        this.closeAlert();
+      }, this.alert.timeout);
+    },
+    showSuccessAlert(message){
+      if(this.alert.show) return false; // Allow only once alert at the time
+      this.alert = {
+        color: "white",
+        bkgcolor: "green",
+        icon: "check-circle-fill",
+        message: message,
+        show: true,
+        timeout: 3000
+      } 
+      setTimeout(() => {
+        this.closeAlert();
+      }, this.alert.timeout);
+    },
+    closeAlert(){
+      this.alert.show = false;
+    }
   }
 }
 </script>
@@ -73,5 +111,10 @@ export default {
     background: rgb(9,9,121);
     z-index: -1;
   }
+}
+.livealert {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 </style>
