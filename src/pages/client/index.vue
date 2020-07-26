@@ -110,7 +110,6 @@ export default {
   async asyncData({app}) {
     await app.$beamerstream.prepare();
     await app.$beamerstream.prepareSonglist();
-    return {};
   }
 };
 </script>

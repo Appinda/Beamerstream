@@ -25,9 +25,12 @@ export default {
   methods: {
     selectSong(songid) {
       this.selectedItemId = songid;
+      this.$emit('songSelect', this.selectedItemId);
     },
     loadSong(e) {
-      this.$beamerstream.setActiveSong(this.selectedItemId);
+      console.log("LOADF");
+      // this.$beamerstream.setActiveSong(this.selectedItemId);
+      this.$emit('songLoad');
     }
   }
 };
