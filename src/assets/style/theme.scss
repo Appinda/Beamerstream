@@ -46,3 +46,15 @@
     }
   }
 }
+
+// Cards
+.card {
+  border-radius: 0;
+  .card-header:first-child {
+    border-radius: 0;
+    background-color: rgba(0,0,0,0.03);
+  }
+  .card-header:first-child {
+    border-radius: 0;
+  }
+}
