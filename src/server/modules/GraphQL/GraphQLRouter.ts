@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import schema from './MakeSchema';
+import schema from './GraphQLSchema';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import {
   graphqlExpress,

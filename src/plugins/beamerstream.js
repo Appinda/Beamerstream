@@ -3,8 +3,6 @@ import Transition from '~/modules/enums/Transition';
 import gql from 'graphql-tag';
 
 export default ({ app, store }, inject) => {
-  
-  let socket = null;
 
   function setupListeners(){
       console.log("SetupListeners");
@@ -13,7 +11,7 @@ export default ({ app, store }, inject) => {
   class BeamerstreamService {
 
     constructor(){
-      // socket = new Socket();
+      this.client = app.apolloProvider.defaultClient;    
       setupListeners();
     }
 
@@ -28,22 +26,28 @@ export default ({ app, store }, inject) => {
       // If songlist not loaded in cache (store), fetch it from server
       if(!songlist){
         songlist = [];
-        const client = app.apolloProvider.defaultClient;    
-        client.query({query: gql`{songlist {id name author ccli}}`})
+        this.client.link.subscriptionClient.onConnected(() => {
+          console.log("CONNECTED");
+        });
+        this.client.query({query: gql`{songlist {id name author ccli}}`})
         .then(({ data }) => {
           store.commit('cache/setSonglist', data.songlist);
           cached = false;
-        });
+        })
 
-        const s = client.subscribe({
+        const s = this.client.subscribe({
           query: gql`subscription{
-            activeSongSet
+            activeSongSet {
+              meta{id,name,author,ccli},
+              lyrics{order,verses{name,text}},
+              themeid
+            }
           }`
         })
       
         s.subscribe({
             next: ({ data }) => {
-              console.log(data)
+              console.log("Subscription result: ", data)
               store.commit('cache/setCurrentSong', data.activeSongSet);
             }
         });
@@ -53,9 +57,8 @@ export default ({ app, store }, inject) => {
     }
 
     setActiveSong(songid){
-      const client = app.apolloProvider.defaultClient;    
-      // client.query({query: gql`{songlist {id name author ccli}}`})
-      client.mutate({ mutation: gql`mutation($id: String!){setActiveSong(id: $id)}`, variables: {id: songid}})
+      console.log("SAS", songid);
+      this.client.mutate({ mutation: gql`mutation($id: String!){setActiveSong(id: $id)}`, variables: {id: songid}})
     }
 
     setTransitionDisplay(value){

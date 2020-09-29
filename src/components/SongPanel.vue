@@ -2,15 +2,15 @@
 <div>
   <div class="songlist bs-select" v-if="song">
     <div
-      v-for="(item, index) in song.verses"
+      v-for="(item, index) in song.lyrics.verses"
       :key="index"
       :data-id="item.id"
       @dblclick="loadSong"
       @click="selectSong"
-    >{{item.name}}</div>
+    >{{item.name}}<p v-html="item.text.replace(/(%n)/g, '<br/>').replace(/(%s)/g, '<br/><br/>')"></p></div>
   </div>
   <div v-else>
-    <p>{{emptyText}}, {{song}}</p>
+    <p></p>
   </div>
 </div>
   

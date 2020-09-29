@@ -7,14 +7,14 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <bs-songlist :songlist="songlist" />
+            <bs-songlist :songlist="songlist" @songLoad="loadSong" />
             <template v-slot:footer></template>
           </b-card>
         </b-col>
         <b-col md="6" sm="12"  class="h-100">
           <b-card class="h-100">
             <template v-slot:header>
-              <h6 class="mb-0">Panel: {{currentSong}}</h6>
+              <h6 class="mb-0">{{currentSong?currentSong.meta.name:"No song selected"}}</h6>
             </template>
             <bs-songpanel :song="currentSong"/>
             <template v-slot:footer></template>
@@ -84,6 +84,13 @@ export default {
         return false;
       this.currentVerseIndex++;
       return true;
+    },
+    selectSong(data){
+      console.log("SS", data)
+    },
+    loadSong(data){
+      console.log("LS", data)
+      this.$beamerstream.setActiveSong(data);
     }
   },
   computed: {

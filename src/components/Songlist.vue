@@ -28,9 +28,7 @@ export default {
       this.$emit('songSelect', this.selectedItemId);
     },
     loadSong(e) {
-      console.log("LOADF");
-      // this.$beamerstream.setActiveSong(this.selectedItemId);
-      this.$emit('songLoad');
+      this.$emit('songLoad', this.selectedItemId);
     }
   }
 };
