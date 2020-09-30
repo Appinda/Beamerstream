@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "cross-env nuxt build",
+    "build": "nuxt build",
     "start": "tsc && electron .",
     "generate": "nuxt generate",
     "pack": "tsc && yarn generate && electron-builder --dir",
