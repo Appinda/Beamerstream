@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 export default {
-  mode: 'spa',
+  ssr: true,
   /*
   ** Headers of the page
   */
