@@ -27,7 +27,7 @@
                 <template v-slot:header>
                   <h6 class="mb-0">Liturgy</h6>
                 </template>
-                Liturgy
+                <p v-for="(v,k) in liturgy" :key="k">{{v.name}}</p>
                 <template v-slot:footer></template>
               </b-card>
             </b-col>  
@@ -99,6 +99,9 @@ export default {
     },
     currentSong() {
       return this.$store.state.cache.currentSong;
+    },
+    liturgy(){
+      return this.$store.state.cache.liturgy;
     }
   },
   mounted() {

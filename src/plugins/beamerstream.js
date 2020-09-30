@@ -35,20 +35,20 @@ export default ({ app, store }, inject) => {
           cached = false;
         })
 
-        const s = this.client.subscribe({
-          query: gql`subscription{
-            activeSongSet {
-              meta{id,name,author,ccli},
-              lyrics{order,verses{name,text}},
-              themeid
-            }
-          }`
-        })
-      
-        s.subscribe({
+        // Active song set
+        this.client.subscribe({
+          query: gql`subscription{activeSongSet{meta{id,name,author,ccli},lyrics{order,verses{name,text}},themeid}}`
+        }).subscribe({
             next: ({ data }) => {
-              console.log("Subscription result: ", data)
               store.commit('cache/setCurrentSong', data.activeSongSet);
+            }
+        });
+        // Liturgy
+        this.client.subscribe({
+          query: gql`subscription{liturgy{items{id,name,author}}}`
+        }).subscribe({
+            next: ({ data }) => {
+              store.commit('cache/setLiturgy', data.liturgy.items);
             }
         });
       }

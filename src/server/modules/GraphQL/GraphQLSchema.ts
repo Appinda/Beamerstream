@@ -13,6 +13,24 @@ import {
 
 const pubsub = new PubSub();
 
+let app = {
+  liturgy: {
+    items: []
+  }
+}
+
+const AppType = new GraphQLObjectType({
+  name: 'App',
+  fields: () => ({
+    liturgy: { type: GraphQLNonNull(LiturgyType) },
+  })
+});
+const LiturgyType = new GraphQLObjectType({
+  name: 'Liturgy',
+  fields: () => ({
+    items: { type: GraphQLList(SongMetaType) },
+  })
+});
 const SongType = new GraphQLObjectType({
   name: 'Song',
   fields: () => ({
@@ -59,6 +77,10 @@ const RootQueryType = new GraphQLObjectType({
     songlist: {
       type: new GraphQLList(SongMetaType),
       resolve: (parent, args, context) => assetloader.getSonglist()
+    },
+    liturgy: {
+      type: new GraphQLNonNull(LiturgyType),
+      resolve: (parent, args, context) => app.liturgy
     }
   })
 });
@@ -75,7 +97,33 @@ const RootMutationType = new GraphQLObjectType({
         pubsub.publish('ACTIVE_SONG_SET', { id: args.id });
         return true;
       }
-    }
+    },
+    addToLiturgy: {
+      type: GraphQLBoolean,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (parent, args, context) => {
+        // Add item to liturgy
+        let song = assetloader.getSong(args.id);
+        app.liturgy.items.push(song.meta);
+        pubsub.publish('LITURGY_CHANGE', { liturgy: app.liturgy });
+        return true;
+      }
+    },
+    removeFromLiturgy: {
+      type: GraphQLBoolean,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (parent, args, context) => {
+        // Remove item from liturgy
+        let song = assetloader.getSong(args.id);
+        app.liturgy.items = app.liturgy.items.filter(e => e.meta.id !== song.meta.id);
+        pubsub.publish('LITURGY_CHANGE', { liturgy: app.liturgy });
+        return true;
+      }
+    },
   })
 });
 
@@ -88,8 +136,17 @@ const RootSubscriptionType = new GraphQLObjectType({
         return assetloader.getSong(parent.id);
       },
       subscribe: (parent, args, context) => {
-        console.log("New subscription");
         return pubsub.asyncIterator(['ACTIVE_SONG_SET']);
+      }
+    },
+    liturgy: {
+      type: LiturgyType,
+      resolve: async (parent, args, context) => {
+        console.log(parent);
+        return parent.liturgy;
+      },
+      subscribe: (parent, args, context) => {
+        return pubsub.asyncIterator(['LITURGY_CHANGE']);
       }
     }
   })

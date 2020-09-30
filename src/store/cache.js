@@ -5,7 +5,8 @@ export const state = () => ({
   transition: {
     display: "black",
     type: "fade"
-  }
+  },
+  liturgy: []
 })
 
 export const mutations = {
@@ -23,5 +24,8 @@ export const mutations = {
   },
   setTransitionType (state, value) {
     state.transition.type = value;
+  },
+  setLiturgy(state, value) {
+    state.liturgy = value;
   }
 }
