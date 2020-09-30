@@ -26,7 +26,7 @@ class AssetLoader {
             author: rawsong.meta.author,
             ccli: rawsong.meta.ccli,
             filename: filename,
-            id: Utils.getNewObjectID(),
+            id: rawsong.meta.id,
             name: rawsong.meta.name,
           },
           themeid: rawsong.theme
