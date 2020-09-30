@@ -14,9 +14,9 @@
         <b-col md="6" sm="12"  class="h-100">
           <b-card class="h-100">
             <template v-slot:header>
-              <h6 class="mb-0">{{currentSong?currentSong.meta.name:"No song selected"}}</h6>
+              <h6 class="mb-0">{{activeSong?activeSong.meta.name:"No song selected"}}</h6>
             </template>
-            <bs-songpanel :song="currentSong"/>
+            <bs-songpanel :song="activeSong"/>
             <template v-slot:footer></template>
           </b-card>
         </b-col>
@@ -27,7 +27,7 @@
                 <template v-slot:header>
                   <h6 class="mb-0">Liturgy</h6>
                 </template>
-                <p v-for="(v,k) in liturgy" :key="k">{{v.name}}</p>
+                <p v-for="(v,k) in liturgy.items" :key="k">{{v.name}}</p>
                 <template v-slot:footer></template>
               </b-card>
             </b-col>  
@@ -38,7 +38,7 @@
                 <template v-slot:header>
                   <h6 class="mb-0">Controls</h6>
                 </template>
-                <bs-transitionswitch />
+                <bs-transitionswitch :transitionType="transitionType"/>
               </b-card>
             </b-col>
           </b-row>
@@ -49,13 +49,22 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import queries from "@/plugins/helpers/queries";
 
 export default {
   name: "ControlPage",
   layout: "control",
   data: () => ({
     currentVerseIndex: null,
+    liturgy: {
+      items: []
+    },
+    songlist: [],
+    activeSong: null,
+    transitionType: {
+      display: "",
+      ease: ""
+    }
   }),
   methods: {
     hide() {
@@ -86,23 +95,24 @@ export default {
       return true;
     },
     selectSong(data){
-      console.log("SS", data)
+      
     },
     loadSong(data){
-      console.log("LS", data)
       this.$beamerstream.setActiveSong(data);
     }
   },
-  computed: {
-    songlist() {
-      return this.$store.state.cache.songlist;
+  apollo: {
+    songlist: queries.query.songlist,
+    activeSong: {
+      query: queries.query.activeSong,
+      subscribeToMore: {
+        document: queries.subscription.activeSongSet,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          previousResult.activeSong = subscriptionData.data.activeSongSet;
+        },
+      }
     },
-    currentSong() {
-      return this.$store.state.cache.currentSong;
-    },
-    liturgy(){
-      return this.$store.state.cache.liturgy;
-    }
+    liturgy: queries.query.liturgy
   },
   mounted() {
     $(document).on("keydown", e => {
@@ -116,10 +126,6 @@ export default {
           break;
       }
     });
-  },
-  async asyncData({app}) {
-    await app.$beamerstream.prepare();
-    await app.$beamerstream.prepareSonglist();
   }
 };
 </script>

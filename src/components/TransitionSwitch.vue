@@ -20,19 +20,34 @@
 
 <script>
 import Transition from '~/modules/enums/Transition';
+import queries from "@/plugins/helpers/queries";
+
 export default {
   name: 'TransitionSwitch',
   data: () => ({
-    
+    transitionType: {
+      display: "",
+      ease: ""
+    }
   }),
   computed: {
-    display() { return this.$store.state.cache.transition.display },
-    type() { return this.$store.state.cache.transition.type },
-    btnBlackVariant(){ return this.getButtonColor(this.display==Transition.BLACK)},
-    btnThemeVariant(){ return this.getButtonColor(this.display==Transition.THEME)},
-    btnTextVariant(){ return this.getButtonColor(this.display==Transition.TEXT)},
-    btnCutVariant(){ return this.getButtonColor(this.type==Transition.CUT)},
-    btnFadeVariant(){ return this.getButtonColor(this.type==Transition.FADE)}
+    btnBlackVariant(){ return this.getButtonColor(this.transitionType.display==Transition.BLACK)},
+    btnThemeVariant(){ return this.getButtonColor(this.transitionType.display==Transition.THEME)},
+    btnTextVariant(){ return this.getButtonColor(this.transitionType.display==Transition.TEXT)},
+    btnCutVariant(){ return this.getButtonColor(this.transitionType.ease==Transition.CUT)},
+    btnFadeVariant(){ return this.getButtonColor(this.transitionType.ease==Transition.FADE)}
+  },
+  apollo: {
+    transitionType: {
+      query: queries.query.transitionType,
+      subscribeToMore: {
+        document: queries.subscription.transitionType,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          previousResult.transitionType.display = subscriptionData.data.transitionType.display;
+          previousResult.transitionType.ease = subscriptionData.data.transitionType.ease;
+        },
+      }
+    }
   },
   methods: {
     getButtonColor(value){
@@ -49,10 +64,10 @@ export default {
       this.$beamerstream.setTransitionDisplay(Transition.TEXT);
     },
     setCutType(){
-      this.$beamerstream.setTransitionType(Transition.CUT);
+      this.$beamerstream.setTransitionEase(Transition.CUT);
     },
     setFadeType(){
-      this.$beamerstream.setTransitionType(Transition.FADE);
+      this.$beamerstream.setTransitionEase(Transition.FADE);
     }
   }
 }

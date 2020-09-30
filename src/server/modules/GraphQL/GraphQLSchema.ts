@@ -14,14 +14,20 @@ import {
 const pubsub = new PubSub();
 
 let app = {
+  transitionType: {
+    ease: "cut",
+    display: "text",
+  },
   liturgy: {
     items: []
-  }
+  },
+  activeSong: null
 }
 
 const AppType = new GraphQLObjectType({
   name: 'App',
   fields: () => ({
+    transitionType: { type: GraphQLNonNull(TransitionTypeType) },
     liturgy: { type: GraphQLNonNull(LiturgyType) },
   })
 });
@@ -29,6 +35,13 @@ const LiturgyType = new GraphQLObjectType({
   name: 'Liturgy',
   fields: () => ({
     items: { type: GraphQLList(SongMetaType) },
+  })
+});
+const TransitionTypeType = new GraphQLObjectType({
+  name: 'TransitionType',
+  fields: () => ({
+    display: { type: GraphQLNonNull(GraphQLString) },
+    ease: { type: GraphQLNonNull(GraphQLString) },
   })
 });
 const SongType = new GraphQLObjectType({
@@ -78,9 +91,21 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(SongMetaType),
       resolve: (parent, args, context) => assetloader.getSonglist()
     },
+    app: {
+      type: new GraphQLNonNull(AppType),
+      resolve: (parent, args, context) => app
+    },
     liturgy: {
       type: new GraphQLNonNull(LiturgyType),
       resolve: (parent, args, context) => app.liturgy
+    },
+    transitionType: {
+      type: new GraphQLNonNull(TransitionTypeType),
+      resolve: (parent, args, context) => app.transitionType
+    },
+    activeSong: {
+      type: SongType,
+      resolve: (parent, args, context) => app.activeSong
     }
   })
 });
@@ -94,6 +119,7 @@ const RootMutationType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: (parent, args, context) => {
+        app.activeSong = assetloader.getSong(args.id);
         pubsub.publish('ACTIVE_SONG_SET', { id: args.id });
         return true;
       }
@@ -124,6 +150,20 @@ const RootMutationType = new GraphQLObjectType({
         return true;
       }
     },
+    setTransitionType: {
+      type: GraphQLBoolean,
+      args: {
+        display: { type: GraphQLString },
+        ease: { type: GraphQLString }
+      },
+      resolve: (parent, args, context) => {
+        if(args.display) app.transitionType.display = args.display;
+        if(args.ease) app.transitionType.ease = args.ease;
+        let updated = !!args.display || !!args.ease;
+        if(updated) pubsub.publish('TRANSITIONTYPE_CHANGE', { transitionType: app.transitionType });
+        return updated;
+      }
+    },
   })
 });
 
@@ -142,11 +182,19 @@ const RootSubscriptionType = new GraphQLObjectType({
     liturgy: {
       type: LiturgyType,
       resolve: async (parent, args, context) => {
-        console.log(parent);
         return parent.liturgy;
       },
       subscribe: (parent, args, context) => {
         return pubsub.asyncIterator(['LITURGY_CHANGE']);
+      }
+    },
+    transitionType: {
+      type: TransitionTypeType,
+      resolve: async (parent, args, context) => {
+        return parent.transitionType;
+      },
+      subscribe: (parent, args, context) => {
+        return pubsub.asyncIterator(['TRANSITIONTYPE_CHANGE']);
       }
     }
   })

@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import queries from "@/plugins/helpers/queries";
+
 export default {
   name: "ControlPage",
   layout: "control",
@@ -36,9 +38,7 @@ export default {
     songSelected: false
   }),
   computed: {
-    songlist() {
-      return this.$store.state.cache.songlist;
-    },
+    
   },
   methods: {
     onSongSelect(id){
@@ -48,10 +48,9 @@ export default {
       // this.songSelected = false;
     }
   },
-  async asyncData({app}) {
-    await app.$beamerstream.prepare();
-    await app.$beamerstream.prepareSonglist();
-  }
+  apollo: {
+    songlist: queries.query.songlist
+  },
 }
 </script>
 
