@@ -32,7 +32,7 @@ Make sure to have [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.co
 
 ### Common commands
 
-execute in `/src`:
+Execute in `/src`:
 
 - `yarn` to install all project dependencies.
 - `yarn dev` to run the development app (web only).
@@ -41,6 +41,13 @@ execute in `/src`:
 - `yarn run pack`: to pre-pack the application for build,
 - `yarn dist` to build the full application.
 - `yarn clean` to remove generate & build output folders.
+
+#### Development
+
+To develop, run these 2 commands:
+
+- `yarn dev` to run the development app (web only).
+- `yarn start -h -p 3001` to run the development backend server on port 3001.
 
 ## Contributing
 
