@@ -11,6 +11,10 @@
           <b-nav-item to="/client/songs">Songs</b-nav-item>
           <b-nav-item to="/client/themes">Themes</b-nav-item>
           <b-nav-item to="/client/settings"><b-icon-gear-fill/></b-nav-item>
+
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item target="_blank" to="/output">Output&emsp;<b-icon-arrow-right-square-fill/></b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
