@@ -143,12 +143,8 @@ export default {
     // required
     clientConfigs: {
       default: {
-        // required  
-        httpEndpoint: 'http://localhost:3001',
-        // optional
-        // override HTTP endpoint in browser only
-        browserHttpEndpoint: '/api/graphql',
-        // optional
+        httpEndpoint: 'http://localhost:3001/api/graphql',
+        // browserHttpEndpoint: '', // override HTTP endpoint in browser only
         // See https://www.apollographql.com/docs/link/links/http.html#options
         httpLinkOptions: {
           credentials: 'same-origin'
@@ -156,10 +152,8 @@ export default {
         // You can use `wss` for secure connection (recommended in production)
         // Use `null` to disable subscriptions
         wsEndpoint: 'ws://localhost:3001/api/graphql', // optional
-        // LocalStorage token
-        tokenName: 'apollo-token', // optional
-        // Enable Automatic Query persisting with Apollo Engine
-        persisting: false, // Optional
+        tokenName: 'apollo-token', // LocalStorage token
+        persisting: false, // Enable Automatic Query persisting with Apollo Engine
         // Use websockets for everything (no HTTP)
         // You need to pass a `wsEndpoint` for this to work
         websocketsOnly: true // Optional

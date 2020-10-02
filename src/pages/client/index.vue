@@ -16,7 +16,7 @@
             <template v-slot:header>
               <h6 class="mb-0">{{activeSong?activeSong.meta.name:"No song selected"}}</h6>
             </template>
-            <bs-songpanel :song="activeSong"/>
+            <bs-songpanel :song="activeSong" v-if="activeSong"/>
             <template v-slot:footer></template>
           </b-card>
         </b-col>
@@ -54,6 +54,7 @@ import queries from "@/plugins/helpers/queries";
 export default {
   name: "ControlPage",
   layout: "control",
+  loading: false,
   data: () => ({
     currentVerseIndex: null,
     liturgy: {
@@ -106,13 +107,22 @@ export default {
     activeSong: {
       query: queries.query.activeSong,
       subscribeToMore: {
-        document: queries.subscription.activeSongSet,
+        document: queries.subscription.activeSong,
         updateQuery: (previousResult, { subscriptionData }) => {
-          previousResult.activeSong = subscriptionData.data.activeSongSet;
+          return { activeSong: Object.assign(previousResult.activeSong, subscriptionData.data.activeSong) }
         },
       }
     },
-    liturgy: queries.query.liturgy
+    liturgy: queries.query.liturgy,
+    transitionType: {
+      query: queries.query.transitionType,
+      subscribeToMore: {
+        document: queries.subscription.transitionType,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return { transitionType: Object.assign(previousResult.transitionType, subscriptionData.data.transitionType) }
+        },
+      }
+    }
   },
   mounted() {
     $(document).on("keydown", e => {

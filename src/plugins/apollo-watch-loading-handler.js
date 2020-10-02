@@ -1,3 +1,5 @@
+let queueLength = 0;
+
 export default (isLoading, countModifier, nuxtContext) => {
-  console.log('Global loading')
+  queueLength += countModifier;
 }

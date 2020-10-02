@@ -1,14 +1,15 @@
-.card .bs-select {
-  margin: -20px;
+.card .card-body {
+  padding: 0;
 }
+
 .bs-select {
   @include noselect;
-  > div:not(.error) {
-    padding: 2px 10px;
+  overflow-y: scroll;
+  height: 100%;
+  > div {
     &:not(:last-child){
       border-bottom: 1px solid #ddd;
     }
-    cursor: pointer;
     span.author {
       margin-left: 10px;
       color: #999;
@@ -18,13 +19,33 @@
         
       }
     }
-    &:hover {
-      background-color: $highlight;
+    &, > div {
+      &.interactive {
+        cursor: pointer;
+        &:hover {
+          background-color: $highlight;
+        }
+        padding: .2rem .5rem;
+      }
+      &.active {
+        background-color: $primary !important;
+        color: white;
+      }
+      &.divider {
+        padding: 0 .5rem;
+        vertical-align: top;
+        background-color: #dbe5f1;
+        border-bottom: 1px solid #ddd;
+      }
     }
-    &.active {
-      background-color: $primary;
-      color: white;
-    }
+  }
+}
+
+.songpanel {
+  span.translation {
+    font-size: .9em;
+    color: #a300d8;
+    line-height: 0;
   }
 }
 

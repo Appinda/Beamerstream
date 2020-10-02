@@ -1,16 +1,13 @@
 <template>
-<div>
-  <div class="songlist bs-select" v-if="song">
+<div class="songpanel">
+  <div class="bs-select">
     <div
-      v-for="(item, index) in song.lyrics.verses"
+      v-for="(item, index) in orderedLyrics"
       :key="index"
-      :data-id="item.id"
-      @dblclick="loadSong"
-      @click="selectSong"
-    >{{item.name}}<p v-html="item.text.replace(/(%n)/g, '<br/>').replace(/(%s)/g, '<br/><br/>')"></p></div>
-  </div>
-  <div v-else>
-    <p></p>
+    >
+      <div class="divider">{{item.name}}</div>
+      <div :data-id="item.id" @click="selectVerse" class="interactive" v-html="item.text"></div>
+    </div>
   </div>
 </div>
   
@@ -26,16 +23,31 @@ export default {
     emptyText: "No song selected"
   }),
   methods: {
-    loadSong(){
-
+    selectVerse(){
+      console.log("hiu");
+    }
+  },
+  computed: {
+    order(){
+      return this.song.lyrics.order.split(" ");
     },
-    selectSong(){
-
+    orderedLyrics(){
+      return this.order.map((o, i) => {
+        let verse = this.song.lyrics.verses.find(s => s.name == o);
+        if(!verse) return "";
+        verse.text = verse.text
+        .replace(/%n/g, '<br/>')
+        .replace(/{tr}/g, `<span class="translation">`).replace(/{\/tr}/g, `</span>`)
+        return verse;
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.songpanel {
+  height: 100%;
+  position: relative;
+}
 </style>

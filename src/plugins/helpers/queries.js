@@ -5,7 +5,7 @@ export default {
     songlist: gql`{songlist{id,name,author,ccli}}`,
     activeSong: gql`{activeSong{meta{id,name,author,ccli},lyrics{order,verses{name,text}},themeid}}`,
     liturgy: gql`{liturgy{items{id,name,author}}}`,
-    transitionType: gql`{transitionType{display,ease}}`,
+    transitionType: gql`{transitionType{display,ease,easeDuration}}`,
   },
   mutation: {
     setActiveSong: gql`mutation($id: String!){setActiveSong(id: $id)}`,
@@ -13,8 +13,8 @@ export default {
     setTransitionEase: gql`mutation($ease: String!){setTransitionType(ease: $ease)}`
   },
   subscription: {
-    activeSongSet: gql`subscription{activeSongSet{meta{id,name,author,ccli},lyrics{order,verses{name,text}},themeid}}`,
+    activeSong: gql`subscription{activeSong{meta{id,name,author,ccli},lyrics{order,verses{name,text}},themeid}}`,
     liturgy: gql`subscription{liturgy{items{id,name,author}}}`,
-    transitionType: gql`subscription{transitionType{display,ease}}`
+    transitionType: gql`subscription{transitionType{display,ease,easeDuration}}`
   }
 }

@@ -4,6 +4,7 @@
       v-for="(item, index) in songlist"
       :key="index"
       :data-id="item.id"
+      class="interactive"
       :class="{active: selectedItemId==item.id}"
       @dblclick="loadSong"
       @click="selectSong(item.id)"

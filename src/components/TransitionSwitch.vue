@@ -25,29 +25,17 @@ import queries from "@/plugins/helpers/queries";
 export default {
   name: 'TransitionSwitch',
   data: () => ({
-    transitionType: {
-      display: "",
-      ease: ""
-    }
+    
   }),
+  props: {
+    transitionType: Object
+  },
   computed: {
     btnBlackVariant(){ return this.getButtonColor(this.transitionType.display==Transition.BLACK)},
     btnThemeVariant(){ return this.getButtonColor(this.transitionType.display==Transition.THEME)},
     btnTextVariant(){ return this.getButtonColor(this.transitionType.display==Transition.TEXT)},
     btnCutVariant(){ return this.getButtonColor(this.transitionType.ease==Transition.CUT)},
     btnFadeVariant(){ return this.getButtonColor(this.transitionType.ease==Transition.FADE)}
-  },
-  apollo: {
-    transitionType: {
-      query: queries.query.transitionType,
-      subscribeToMore: {
-        document: queries.subscription.transitionType,
-        updateQuery: (previousResult, { subscriptionData }) => {
-          previousResult.transitionType.display = subscriptionData.data.transitionType.display;
-          previousResult.transitionType.ease = subscriptionData.data.transitionType.ease;
-        },
-      }
-    }
   },
   methods: {
     getButtonColor(value){

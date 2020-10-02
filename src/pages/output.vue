@@ -1,24 +1,17 @@
 <template>
   <div class="outputPage">
-    <!-- <div ref="FTB" :style="styleFTB" id="FTB"></div> -->
-    <p id="lyrics1" :style="lyricsStyle">{{lyrics}}</p>
-    <div id="background"></div>
+    <div ref="FTB" :style="FTBStyle" id="FTB"></div>
+    <p id="lyrics1" :style="lyricsStyle" v-html="lyrics"></p>
+    <div id="background" :style="backgroundStyle"></div>
     <bs-livealert :show="alert.show" :color="alert.color" :bkgcolor="alert.bkgcolor" :message="alert.message" :icon="alert.icon"/>
   </div>
 </template>
 
 <script>
+import queries from "@/plugins/helpers/queries";
 export default {
   name: "OutputPage",
   data: () => ({
-    lyrics: "verse",
-    lyricsStyle: {
-      "fontSize": "52px"
-    },
-    styleFTB: {
-      transition: "all 2s linear",
-      opacity: 0
-    },
     styleLyrics: {
       
     },
@@ -28,8 +21,40 @@ export default {
       icon: "",
       message: "",
       show: false
-    }
+    },
+    transitionType: {
+      ease: '',
+      display: ''
+    },
+    activeSong: null
   }),
+  computed: {
+    transition(){
+      return this.transitionType.ease=='fade'?'opacity 300ms linear':'0'
+    },
+    FTBStyle(){
+      return {
+        opacity: ['black'].includes(this.transitionType.display)?1:0, 
+        transition: this.transition,
+      }
+    },
+    lyricsStyle(){
+      return {
+        opacity: ['text'].includes(this.transitionType.display)?1:0,
+        fontSize: "80px",
+        transition: this.transition,
+      }
+    },
+    backgroundStyle(){
+      return {
+        transition: this.transition,
+      }
+    },
+    lyrics() {
+      if(!this.activeSong) return "";
+      return this.activeSong.lyrics.verses[0].text.replace(/%n/g, '<br/>');
+    }
+  },
   methods: {
     showErrorAlert(message){
       if(this.alert.show) return false; // Allow only once alert at the time
@@ -62,7 +87,29 @@ export default {
     closeAlert(){
       this.alert.show = false;
     }
-  }
+  },
+  apollo: {
+    transitionType: {
+      query: queries.query.transitionType,
+      subscribeToMore: {
+        document: queries.subscription.transitionType,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          console.log("New", subscriptionData)
+          previousResult.transitionType.display = subscriptionData.data.transitionType.display;
+          previousResult.transitionType.ease = subscriptionData.data.transitionType.ease;
+        },
+      }
+    },
+    activeSong: {
+      query: queries.query.activeSong,
+      subscribeToMore: {
+        document: queries.subscription.activeSong,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return { activeSong: Object.assign(previousResult.activeSong, subscriptionData.data.activeSong) }
+        },
+      }
+    },
+  },
 }
 </script>
 
@@ -105,6 +152,7 @@ export default {
   #lyrics1 {
     @include textShadow(1);
     color: white;
+    margin: 1rem 2rem;
   }
   #background {
     @include screen();

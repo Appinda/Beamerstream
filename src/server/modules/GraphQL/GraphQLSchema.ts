@@ -8,7 +8,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLList,
-  GraphQLSchema
+  GraphQLSchema,
+  GraphQLFloat
 } from "graphql";
 
 const pubsub = new PubSub();
@@ -16,6 +17,7 @@ const pubsub = new PubSub();
 let app = {
   transitionType: {
     ease: "cut",
+    easeDuration: 0,
     display: "text",
   },
   liturgy: {
@@ -42,6 +44,7 @@ const TransitionTypeType = new GraphQLObjectType({
   fields: () => ({
     display: { type: GraphQLNonNull(GraphQLString) },
     ease: { type: GraphQLNonNull(GraphQLString) },
+    easeDuration: { type: GraphQLNonNull(GraphQLFloat) },
   })
 });
 const SongType = new GraphQLObjectType({
@@ -154,14 +157,22 @@ const RootMutationType = new GraphQLObjectType({
       type: GraphQLBoolean,
       args: {
         display: { type: GraphQLString },
-        ease: { type: GraphQLString }
+        ease: { type: GraphQLString },
       },
       resolve: (parent, args, context) => {
         if(args.display) app.transitionType.display = args.display;
-        if(args.ease) app.transitionType.ease = args.ease;
-        let updated = !!args.display || !!args.ease;
-        if(updated) pubsub.publish('TRANSITIONTYPE_CHANGE', { transitionType: app.transitionType });
-        return updated;
+        if(args.ease) {
+          app.transitionType.ease = args.ease;
+          switch(app.transitionType.ease){
+            case "fade":
+              app.transitionType.easeDuration = 2;
+              break;
+            default: 
+              app.transitionType.easeDuration = 0;
+          }
+        }
+        pubsub.publish('TRANSITIONTYPE_CHANGE', { transitionType: app.transitionType });
+        return true;
       }
     },
   })
@@ -170,7 +181,7 @@ const RootMutationType = new GraphQLObjectType({
 const RootSubscriptionType = new GraphQLObjectType({
   name: 'Subscription',
   fields: () => ({
-    activeSongSet: {
+    activeSong: {
       type: SongType,
       resolve: async (parent, args, context) => {
         return assetloader.getSong(parent.id);

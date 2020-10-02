@@ -6,12 +6,11 @@ import {
   graphqlExpress,
   graphiqlExpress,
 } from 'apollo-server-express';
-import { GraphQLSchema, execute, subscribe } from 'graphql';
+import { execute, subscribe } from 'graphql';
 import { Server } from 'http';
 
 class GraphQLRouter {
   private router: express.Router;
-  private schema: GraphQLSchema;
   private port: number;
 
   constructor(port: number) {
