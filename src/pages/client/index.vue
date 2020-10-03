@@ -54,7 +54,6 @@ import queries from "@/plugins/helpers/queries";
 export default {
   name: "ControlPage",
   layout: "control",
-  loading: false,
   data: () => ({
     currentVerseIndex: null,
     liturgy: {
