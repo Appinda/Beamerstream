@@ -144,6 +144,9 @@ export default {
   rgb(0, 0, 0) 2.88051px -0.838247px 0px;
 }
 .outputPage {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
   #FTB {
     @include screen();
     background-color: black;

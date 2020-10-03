@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="m-3">
     <b-button-group class='w-100 mb-1'>
       <b-button :variant="btnBlackVariant" @click="setBlackDisplay">
         <b-icon icon='square-fill'></b-icon>
