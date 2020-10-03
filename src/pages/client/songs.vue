@@ -7,7 +7,7 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <bs-songlist :songlist="songlist" @songSelect="onSongSelect" @songLoad="onSongLoad"/>
+            <bs-songlist :items="songlist" @select="onSongSelect" @load="onSongLoad"/>
             <template v-slot:footer>
               <b-btn :variant="songSelected?'danger':'light'" aria-label="Delete song" :aria-disabled="!songSelected" :disabled="!songSelected"><b-icon icon="trash">trash</b-icon></b-btn>
               <b-btn :variant="songSelected?'success':'light'" aria-label="Edit song" :aria-disabled="!songSelected" :disabled="!songSelected"><b-icon icon="pencil">edit</b-icon></b-btn>
@@ -19,7 +19,9 @@
             <template v-slot:header>
               <h6 class="mb-0">Edit song</h6>
             </template>
-            Edit
+            <div class="p-2">
+              Edit
+            </div>
             <template v-slot:footer></template>
           </b-card>
         </b-col>

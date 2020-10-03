@@ -1,16 +1,18 @@
 <template>
-  <div class="songlist bs-select">
-    <div
-      v-for="(item, index) in songlist"
-      :key="index"
-      :data-id="item.id"
-      class="interactive"
-      :class="{active: selectedItemId==item.id}"
-      @dblclick="loadSong"
-      @click="selectSong(item.id)"
-    >
-      {{item.name}}
-    </div>
+  <div class="h-100">
+    <ul class="songlist bs-select">
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        :data-id="item.id"
+        class="interactive"
+        :class="{active: selectedItemId==item.id}"
+        @dblclick="load"
+        @click="select(item.id)"
+      >
+        {{item.name}}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -18,17 +20,20 @@
 export default {
   name: "Songlist",
   props: {
-    songlist: Array
+    items: {
+      type: Array,
+      default: []
+    }
   },
   data: () => ({
     selectedItemId: null
   }),
   methods: {
-    selectSong(songid) {
-      this.selectedItemId = songid;
+    select(itemid) {
+      this.selectedItemId = itemid;
       this.$emit('songSelect', this.selectedItemId);
     },
-    loadSong(e) {
+    load(e) {
       this.$emit('songLoad', this.selectedItemId);
     }
   }

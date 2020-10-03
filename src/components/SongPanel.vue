@@ -1,14 +1,14 @@
 <template>
 <div class="songpanel">
-  <div class="bs-select">
-    <div
+  <ul class="bs-select">
+    <li
       v-for="(item, index) in orderedLyrics"
       :key="index"
     >
       <div class="divider">{{item.name}}</div>
       <div :data-id="item.id" @click="selectVerse" class="interactive" v-html="item.text"></div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
   
 </template>
@@ -49,5 +49,10 @@ export default {
 .songpanel {
   height: 100%;
   position: relative;
+  span.translation {
+    font-size: .9em;
+    color: #a300d8;
+    line-height: 0;
+  }
 }
 </style>

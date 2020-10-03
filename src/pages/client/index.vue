@@ -7,7 +7,7 @@
             <template v-slot:header>
               <h6 class="mb-0">Songlist</h6>
             </template>
-            <bs-songlist :songlist="songlist" @songLoad="loadSong" />
+            <bs-songlist :items="songlist" @load="loadSong" />
             <template v-slot:footer></template>
           </b-card>
         </b-col>

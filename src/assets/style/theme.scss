@@ -2,11 +2,14 @@
   padding: 0;
 }
 
-.bs-select {
+ul.bs-select {
   @include noselect;
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 100%;
-  > div {
+  list-style-type: none;
+  padding-left: 0;
+  > li {
     &:not(:last-child){
       border-bottom: 1px solid #ddd;
     }
@@ -41,14 +44,6 @@
   }
 }
 
-.songpanel {
-  span.translation {
-    font-size: .9em;
-    color: #a300d8;
-    line-height: 0;
-  }
-}
-
 .tabs {
   @include noselect;
   .col-auto {
@@ -77,5 +72,9 @@
   }
   .card-header:first-child {
     border-radius: 0;
+  }
+  .card-body {
+    height: 100%;
+    position: relative;
   }
 }

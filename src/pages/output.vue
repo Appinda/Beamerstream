@@ -1,5 +1,5 @@
 <template>
-  <div class="outputPage">
+  <div class="outputPage" :style="pageStyle">
     <div ref="FTB" :style="FTBStyle" id="FTB"></div>
     <p id="lyrics1" :style="lyricsStyle" v-html="lyrics"></p>
     <div id="background" :style="backgroundStyle"></div>
@@ -26,11 +26,14 @@ export default {
       ease: '',
       display: ''
     },
-    activeSong: null
+    activeSong: null,
+    tempShowCursor: true
   }),
   computed: {
-    transition(){
-      return this.transitionType.ease=='fade'?'opacity 300ms linear':'0'
+    pageStyle(){
+      return {
+        cursor: this.tempShowCursor?'default':'none'
+      }
     },
     FTBStyle(){
       return {
@@ -49,6 +52,9 @@ export default {
       return {
         transition: this.transition,
       }
+    },
+    transition(){
+      return this.transitionType.ease=='fade'?'opacity 300ms linear':'0'
     },
     lyrics() {
       if(!this.activeSong) return "";
