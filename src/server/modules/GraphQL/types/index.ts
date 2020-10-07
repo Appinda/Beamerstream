@@ -4,6 +4,10 @@ import LyricsType from "./LyricsType";
 import VerseType from "./VerseType";
 import SongType from "./SongType";
 import SongMetaType from "./SongMetaType";
+
+import ThemeType from "./ThemeType";
+import ThemeMetaType from "./ThemeMetaType";
+
 import TransitionTypeType from "./TransitionTypeType";
 
 import RootQueryType from "./RootQueryType";
@@ -17,6 +21,10 @@ export {
   SongMetaType,
   VerseType,
   LyricsType,
+
+  ThemeType,
+  ThemeMetaType,
+
   TransitionTypeType,
   
   RootQueryType,

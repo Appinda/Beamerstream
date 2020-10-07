@@ -1,11 +1,11 @@
 type ThemeMeta = {
   id: string,
   name: string,
-  filename: string,
-  author: string,
+  filename: string
 }
 type Theme = {
-  meta: ThemeMeta
+  meta: ThemeMeta,
+  fontSize: number
 }
 
 export default Theme;

@@ -1,8 +1,6 @@
-import Song, { SongMeta } from "../obj/Song";
+import Song, { SongMeta } from "./GraphQL/domain/Song";
 import fs from "fs";
 import path from "path";
-import { raw } from "express";
-import Utils from "./Utils";
 
 declare type Songlist = SongMeta[];
 
