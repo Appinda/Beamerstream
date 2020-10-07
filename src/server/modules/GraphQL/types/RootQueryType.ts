@@ -1,6 +1,10 @@
 import { GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLInt } from "graphql";
-import { AppType, LiturgyType, SongType, TransitionTypeType, ThemeType, SongMetaType } from ".";
-import data from "../Data";
+import { LiturgyType, SongType, TransitionTypeType, ThemeType, ThemeMetaType, SongMetaType } from ".";
+import { SongService, ThemeService } from "../../DataAccess/service";
+import state from "../AppState";
+
+const songservice: SongService = new SongService();
+const themeservice: ThemeService = new ThemeService();
 
 export default new GraphQLObjectType({
   name: 'Query',
@@ -10,38 +14,34 @@ export default new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: (parent, args, context) => data.songlist.find(e => e.meta.id == args.id)
+      resolve: (parent, args, context) => songservice.getSong(args.id)
     },
     songlist: {
       type: new GraphQLList(SongMetaType),
-      resolve: (parent, args, context) => data.songlist
-    },
-    app: {
-      type: new GraphQLNonNull(AppType),
-      resolve: (parent, args, context) => data
+      resolve: (parent, args, context) => songservice.getSonglist()
     },
     liturgy: {
       type: new GraphQLNonNull(LiturgyType),
-      resolve: (parent, args, context) => data.liturgy
+      resolve: (parent, args, context) => state.liturgy
     },
     transitionType: {
       type: new GraphQLNonNull(TransitionTypeType),
-      resolve: (parent, args, context) => data.transitionType
+      resolve: (parent, args, context) => state.transitionType
     },
     activeSong: {
       type: SongType,
-      resolve: (parent, args, context) => data.activeSong
+      resolve: (parent, args, context) => state.activeSong
     },
     theme: {
       type: ThemeType,
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: (parent, args,context) => data.themes.find(e => e.meta.id == args.id)
+      resolve: (parent, args,context) => themeservice.getSong(args.id)
     },
     themes: {
-      type: GraphQLList(ThemeType),
-      resolve: (parent, args,context) => data.themes
+      type: GraphQLList(ThemeMetaType),
+      resolve: (parent, args,context) => themeservice.getSonglist()
     }
   })
 });

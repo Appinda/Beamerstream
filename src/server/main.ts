@@ -2,8 +2,8 @@ import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import Server from './Server';
 import yargs from 'yargs';
-import assetLoader from './modules/AssetLoader';
 import { isInterfaceType } from 'graphql';
+import { SongService } from './modules/DataAccess/service';
 
 const argv = 
 yargs
@@ -38,9 +38,12 @@ yargs
 async function preload () {
   console.log("Preload initiated");
   console.log("Loading assets..");
-  await Promise.all([
-    assetLoader.preloadSongs()
-  ]);
+  let songservice = new SongService();
+  try{
+    await songservice.preload();
+  }catch(e){
+    console.error(e);
+  }
   console.log("Loading assets..DONE");
 }
 

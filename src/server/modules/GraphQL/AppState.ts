@@ -1,6 +1,9 @@
-import { Liturgy, Song, Theme, TransitionType } from "./domain";
+import Liturgy from "../domain/Liturgy";
+import Song from "../domain/Song";
+import Theme from "../domain/Theme";
+import TransitionType from "../domain/TransitionType";
 
-class Data {
+class AppState {
   public transitionType: TransitionType = {
     ease: "cut",
     easeDuration: 0,
@@ -23,4 +26,4 @@ class Data {
   ];  
 }
 
-export default new Data();
+export default new AppState();

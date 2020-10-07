@@ -1,7 +1,9 @@
 import { GraphQLObjectType } from "graphql";
 import { LiturgyType, SongType, TransitionTypeType } from ".";
-import assetloader from "../../AssetLoader";
+import { SongService } from "../../DataAccess/service";
 import pubsub from "../PubSub";
+
+const songservice: SongService = new SongService();
 
 export default new GraphQLObjectType({
   name: 'Subscription',
@@ -9,7 +11,7 @@ export default new GraphQLObjectType({
     activeSong: {
       type: SongType,
       resolve: async (parent, args, context) => {
-        return assetloader.getSong(parent.id);
+        return songservice.getSong(parent.id);
       },
       subscribe: (parent, args, context) => {
         return pubsub.asyncIterator(['ACTIVE_SONG_SET']);
