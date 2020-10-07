@@ -31,10 +31,10 @@ export default {
   methods: {
     select(itemid) {
       this.selectedItemId = itemid;
-      this.$emit('songSelect', this.selectedItemId);
+      this.$emit('select', this.selectedItemId);
     },
-    load(e) {
-      this.$emit('songLoad', this.selectedItemId);
+    load(itemid) {
+      this.$emit('load', this.selectedItemId);
     }
   }
 };
