@@ -57,6 +57,12 @@
   },
   "build": {
     "win": {},
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "displayLanguageSelector": false
+    },
     "asar": true,
     "files": [
       "src",
