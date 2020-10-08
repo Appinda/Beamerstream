@@ -1,9 +1,9 @@
 import {app, BrowserWindow} from 'electron';
-import * as path from 'path';
 import Server from './Server';
 import yargs from 'yargs';
-import { isInterfaceType } from 'graphql';
 import { SongService } from './modules/DataAccess/service';
+import path from 'path';
+import fs from 'fs-extra';
 
 const argv = 
 yargs
@@ -35,12 +35,23 @@ yargs
 //                    HELPERS
 // ============================================
 
-async function preload () {
+async function getDataDir(): Promise<string> {
+  const isDev = require('electron-is-dev');
+  const currentDir = isDev ? process.cwd() : path.dirname(process.execPath);
+  const datadir = path.join(currentDir, '/data');
+  let exists = await fs.pathExists(datadir);
+  if(!exists) throw new Error("Data path does not exists.");
+  return datadir;
+}
+
+async function preload(): Promise<void> {
+  const datadir = await getDataDir();
+  console.log(datadir)
   console.log("Preload initiated");
   console.log("Loading assets..");
   let songservice = new SongService();
   try{
-    await songservice.preload();
+    await songservice.preload(datadir);
   }catch(e){
     console.error(e);
   }
@@ -51,7 +62,7 @@ async function preload () {
 //                   ELECTRON
 // ============================================
 
-function createWindow () {
+function createWindow (): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -92,7 +103,6 @@ app.on('window-all-closed', () => {
 // ============================================
 
 (async () => {
-
   await preload();
 
   let enableRemote: boolean = !!argv["remote"];

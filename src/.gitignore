@@ -1,7 +1,8 @@
 /wwwroot
-/src
+/compiled
 /dist
 /build
+/data
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs

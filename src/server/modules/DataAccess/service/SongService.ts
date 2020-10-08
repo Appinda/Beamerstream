@@ -7,8 +7,8 @@ export default class SongService {
 
   private songDao: SongDao = new SongDaoFileImpl();
 
-  async preload(): Promise<boolean> {
-    state.songlist = await this.songDao.getSongs();
+  async preload(datadir: string): Promise<boolean> {
+    state.songlist = await this.songDao.getSongs(datadir);
     return true;
   }
 

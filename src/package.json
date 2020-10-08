@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Beamerstream App",
   "author": "Appinda",
-  "main": "src/main.js",
+  "main": "compiled/server/main.js",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -13,7 +13,7 @@
     "pack": "tsc && yarn generate && electron-builder --dir",
     "dist": "tsc && yarn generate && electron-builder --x64 --win zip --win nsis",
     "postinstall": "electron-builder install-app-deps",
-    "clean": "rimraf wwwroot && rimraf dist && rimraf src"
+    "clean": "rimraf wwwroot && rimraf dist && rimraf compiled"
   },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.1-rc.3",
@@ -29,8 +29,8 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "3",
+    "electron-is-dev": "^1.2.0",
     "express-graphql": "^0.9.0",
-    "fs-extra": "^9.0.1",
     "graphql": "^15.3.0",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tag": "^2.10.3",
@@ -65,7 +65,7 @@
     },
     "asar": true,
     "files": [
-      "src",
+      "compiled",
       "wwwroot",
       "**/node_modules/*/**",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
@@ -79,6 +79,7 @@
       "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
       "!**/{appveyor.yml,.travis.yml,circle.yml}",
       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
-    ]
+    ],
+    "afterPack": "./compiled/scripts/copy.js"
   }
 }

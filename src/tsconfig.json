@@ -9,7 +9,7 @@
     "removeComments": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "outDir": "src",
+    "outDir": "compiled",
     "esModuleInterop": true
   },
   "exclude": [ "node_modules" ] 

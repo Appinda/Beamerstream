@@ -29,7 +29,7 @@ class Server {
   private setupRouter(): void {
     this.app.use('*', CorsFilter);
     this.app.use('/api', this.graphqlRouter.getRouter())
-    this.app.use('/', express.static(path.join(__dirname, '../wwwroot')));
+    this.app.use('/', express.static(path.join(__dirname, '../../wwwroot')));
     // Handle 404
     this.app.use(function(req, res) {
       console.log("Error 404", { path: req.path });

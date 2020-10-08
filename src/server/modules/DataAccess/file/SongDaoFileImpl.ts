@@ -1,18 +1,19 @@
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 
-import Song, { SongMeta } from "../../domain/Song";
+import Song from "../../domain/Song";
 import { SongDao } from "../abstract/";
 
 export default class SongDaoFileImpl implements SongDao {
 
-  private songpath = path.join(__dirname, '../../../../assets/songs');
+  private songpath;
   private fileFormat = 1;
 
   public getSong(id: string): Promise<Song> {
     return this.readSongFromFile(id);
   }
-  public getSongs(): Promise<Song[]> {
+  public getSongs(datadir: string): Promise<Song[]> {
+    this.songpath = path.join(datadir, '/songs');
     return this.readAllSongs();
   }
   public write(song: Song): Promise<void> {
@@ -22,11 +23,11 @@ export default class SongDaoFileImpl implements SongDao {
       theme: song.themeid,
       lyrics: song.lyrics
     }, null, 1);
-    return fs.writeFile(this.getFilePath(song), data);
+    return fs.promises.writeFile(this.getFilePath(song), data);
   }
   public delete(song: Song): Promise<void> {
     const path = this.getFilePath(song);
-    return fs.remove(path);
+    throw new Error("Method not implemented.");
   }
 
   private getFilePath(song: Song): string {
@@ -35,7 +36,7 @@ export default class SongDaoFileImpl implements SongDao {
 
   private async readSongFromFile(filename: string): Promise<Song> {
     const filepath = path.join(this.songpath, filename);
-    const file = await fs.readFile(filepath, {encoding: 'utf8'});
+    const file = await fs.promises.readFile(filepath, {encoding: 'utf8'});
     const rawsong = JSON.parse(file);
     return {
       lyrics: {
@@ -54,10 +55,12 @@ export default class SongDaoFileImpl implements SongDao {
   }
 
   private async readAllSongs(): Promise<Song[]>{
-    let files = await fs.readdir(this.songpath);
+    let files = await fs.promises.readdir(this.songpath, {
+      withFileTypes: true
+    });
     let songs: Song[] = [];
     for(let filename of files){
-      songs.push(await this.readSongFromFile(filename));
+      songs.push(await this.readSongFromFile(filename.name));
     }
     return songs;
   }
