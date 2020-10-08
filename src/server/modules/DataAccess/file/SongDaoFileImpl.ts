@@ -30,7 +30,7 @@ export default class SongDaoFileImpl implements SongDao {
   }
 
   private getFilePath(song: Song): string {
-    return path.join(this.songpath, song.meta.filename + '.bss');
+    return path.join(this.songpath, song.meta.filename + '.json');
   }
 
   private async readSongFromFile(filename: string): Promise<Song> {
