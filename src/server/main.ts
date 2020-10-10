@@ -1,124 +1,108 @@
 import {app, BrowserWindow} from 'electron';
 import Server from './Server';
-import yargs from 'yargs';
 import { SongService } from './modules/DataAccess/service';
 import path from 'path';
 import fs from 'fs-extra';
+import RuntimeArgs from "./RuntimeArgs";
+import MainWindow from './views/MainWindow';
+import AppWindow from './views/AppWindow';
 
-const argv = 
-yargs
-.group(['headless', 'private', 'port'], 'Run')
-.option('headless', {
-  alias: 'h',
-  type: 'boolean',
-  description: 'Run without OS interface'
-})
-.option('private', {
-  type: 'boolean',
-  description: 'Run without public server'
-})
-.option('port', {
-  alias: 'p',
-  type: 'number',
-  description: 'Run on other port',
-  default: 3000
-})
-.group('devport', 'Development')
-.option('devport', {
-  alias: 'dp',
-  type: 'number',
-  description: 'Run on other port',
-})
-.argv;
+class Main {
 
-// ============================================
-//                    HELPERS
-// ============================================
+  private mainWindow: AppWindow;
+  private server: Server;
 
-async function getDataDir(): Promise<string> {
-  const isDev = require('electron-is-dev');
-  const currentDir = isDev ? process.cwd() : path.dirname(process.execPath);
-  const datadir = path.join(currentDir, '/data');
-  let exists = await fs.pathExists(datadir);
-  if(!exists) throw new Error("Data path does not exists.");
-  return datadir;
-}
+  // ============================================
+  //                    HELPERS
+  // ============================================
 
-async function preload(): Promise<void> {
-  const datadir = await getDataDir();
-  console.log(datadir)
-  console.log("Preload initiated");
-  console.log("Loading assets..");
-  let songservice = new SongService();
-  try{
-    await songservice.preload(datadir);
-  }catch(e){
-    console.error(e);
+  private async getDataDir(): Promise<string> {
+    // const isDev = require('electron-is-dev');
+    const isDev = false;
+    let datadir = isDev ? process.cwd() : app.getPath("userData");
+    datadir = path.join(datadir, '/data')
+    let exists = await fs.pathExists(datadir);
+    console.log(datadir, exists);
+    if(!exists) await this.initDataDir(datadir);
+    return datadir;
   }
-  console.log("Loading assets..DONE");
-}
 
-// ============================================
-//                   ELECTRON
-// ============================================
-
-function createWindow (): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    show: false,
-    title: "Beamerstream",
-    webPreferences: {
-      // preload: path.join(__dirname, 'preload.js')
+  private async initDataDir(datadir): Promise<void>{
+    console.log(`Creating data directory in ${datadir}...`);
+    await fs.mkdir(path.join(datadir, '/songs'));
+    await fs.mkdir(path.join(datadir, '/themes'));
+    await fs.mkdir(path.join(datadir, '/services'));
+  }
+  
+  private async preload(): Promise<void> {
+    const datadir = await this.getDataDir();
+    console.log("Preload initiated");
+    console.log("Loading assets..");
+    let songservice = new SongService();
+    try{
+      await songservice.preload(datadir);
+    }catch(e){
+      console.error(e);
     }
-  });
-
-  const url = `http://localhost:${argv.devport||argv.port}`;
-
-  mainWindow.loadURL(url);
-  mainWindow.maximize();
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
-  })
-}
-
-function createWindowWhenReady(){
-  app.whenReady().then(() => {
-    createWindow()
-    
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
-  });
-}
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-});
-
-
-// ============================================
-//                    SERVER
-// ============================================
-
-(async () => {
-  await preload();
-
-  let enableRemote: boolean = !!argv["remote"];
-  if(enableRemote) { console.log("Remote enabled by --remote parameter"); }
-
-  const server = new Server(argv.port, enableRemote);
-
-  // Express
-
-  let conectionStr = await server.start();
-  console.log(`Beamerstream Server listening at ${conectionStr}`);
-
-  // Electron
-  if(!argv.headless) {
-    createWindowWhenReady();
-  } else {
-    console.log("Windows GUI disabled by --headless parameter")
+    console.log("Loading assets..DONE");
   }
-})();
+
+  // ============================================
+  //                   ELECTRON
+  // ============================================
+
+  private async createWindowsWhenReady(baseUrl: string): Promise<void> {
+    await app.whenReady();
+    this.createWindows(baseUrl);
+
+    app.once('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) this.createWindows(baseUrl)
+    })
+  }
+
+  private createWindows(baseUrl: string){
+    this.mainWindow = new MainWindow(baseUrl);
+    this.mainWindow.showWhenReady();
+  }
+
+  // ============================================
+  //                    SERVER
+  // ============================================
+
+  private async run(args): Promise<void> {
+    await this.preload();
+
+    let enableRemote: boolean = !!args["remote"];
+    if(enableRemote) { console.log("Remote enabled by --remote parameter"); }
+    this.server = new Server(args.port, enableRemote);
+  
+    // Express
+    let conectionStr = await this.server.start();
+    console.log(`Beamerstream Server listening at ${conectionStr}`);
+  
+    const url = `http://localhost:${args.devport||args.port}`;
+
+    // Electron
+    if(!args.headless) {
+      this.createWindowsWhenReady(url);
+    } else {
+      console.log("Windows GUI disabled by --headless parameter")
+    }
+  }
+
+  // ============================================
+  //                    MAIN
+  // ============================================
+
+  constructor(){
+    const args = RuntimeArgs.get();
+
+    app.on('window-all-closed', () => {
+      if (process.platform !== 'darwin') app.quit()
+    });
+
+    this.run(args);
+  }
+}
+
+new Main();
