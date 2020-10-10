@@ -17,8 +17,7 @@ class Main {
   // ============================================
 
   private async getDataDir(): Promise<string> {
-    // const isDev = require('electron-is-dev');
-    const isDev = false;
+    const isDev = require('electron-is-dev');
     let datadir = isDev ? process.cwd() : app.getPath("userData");
     datadir = path.join(datadir, '/data')
     let exists = await fs.pathExists(datadir);
