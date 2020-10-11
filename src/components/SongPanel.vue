@@ -24,7 +24,7 @@ export default {
   }),
   methods: {
     selectVerse(){
-      console.log("hiu");
+      
     }
   },
   computed: {

@@ -100,7 +100,6 @@ export default {
       subscribeToMore: {
         document: queries.subscription.transitionType,
         updateQuery: (previousResult, { subscriptionData }) => {
-          console.log("New", subscriptionData)
           previousResult.transitionType.display = subscriptionData.data.transitionType.display;
           previousResult.transitionType.ease = subscriptionData.data.transitionType.ease;
         },
