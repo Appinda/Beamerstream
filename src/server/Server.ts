@@ -5,7 +5,6 @@ import { createServer } from 'http';
 import CorsFilter from './modules/CorsFilter';
 import GraphQLRouter from './modules/GraphQL/GraphQLRouter';
 
-
 class Server {
 
   private port: number = -1;
@@ -28,7 +27,7 @@ class Server {
 
   private setupRouter(): void {
     this.app.use('*', CorsFilter);
-    this.app.use('/api', this.graphqlRouter.getRouter())
+    this.app.use('/api', this.graphqlRouter.getRouter());
     this.app.use('/', express.static(path.join(__dirname, '../../wwwroot')));
     // Handle 404
     this.app.use(function(req, res) {

@@ -11,6 +11,7 @@
           <b-nav-item to="/client/songs">Songs</b-nav-item>
           <b-nav-item to="/client/themes">Themes</b-nav-item>
           <b-nav-item to="/client/settings"><b-icon-gear-fill/></b-nav-item>
+          <b-nav-item to="/client/help">Help</b-nav-item>
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -34,7 +35,9 @@ export default {
         case "client-themes":
           return ["warning", "light"];
         case "client-settings":
-          return ["dark", "dark"];        
+          return ["dark", "dark"];
+        case "client-help":
+          return ["danger", "dark"];
         default:
           return ["light", "light"];
       }
