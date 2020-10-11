@@ -2,7 +2,7 @@ import {app, BrowserWindow} from 'electron';
 import Server from './Server';
 import { SongService } from './modules/DataAccess/service';
 import path from 'path';
-import fs from 'fs-extra';
+import fs from 'fs';
 import RuntimeArgs from "./RuntimeArgs";
 import MainWindow from './views/MainWindow';
 import AppWindow from './views/AppWindow';
@@ -20,17 +20,19 @@ class Main {
     const isDev = require('electron-is-dev');
     let datadir = isDev ? process.cwd() : app.getPath("userData");
     datadir = path.join(datadir, '/data')
-    let exists = await fs.pathExists(datadir);
-    console.log(datadir, exists);
-    if(!exists) await this.initDataDir(datadir);
+    try{
+      await fs.promises.access(datadir);
+    }catch(e){
+      await this.initDataDir(datadir);
+    }
     return datadir;
   }
 
   private async initDataDir(datadir): Promise<void>{
     console.log(`Creating data directory in ${datadir}...`);
-    await fs.mkdir(path.join(datadir, '/songs'));
-    await fs.mkdir(path.join(datadir, '/themes'));
-    await fs.mkdir(path.join(datadir, '/services'));
+    await fs.promises.mkdir(path.join(datadir, '/songs'));
+    await fs.promises.mkdir(path.join(datadir, '/themes'));
+    await fs.promises.mkdir(path.join(datadir, '/services'));
   }
   
   private async preload(): Promise<void> {

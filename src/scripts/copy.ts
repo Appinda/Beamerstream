@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 
 export default async function(context) {
@@ -7,7 +7,7 @@ export default async function(context) {
   ]
   console.log("Copying files..");
   for(let filename of itemsToCopy){
-    await fs.copy(path.join(context.packager.info.projectDir, filename), path.join(context.appOutDir, filename));
+    await fs.promises.copyFile(path.join(context.packager.info.projectDir, filename), path.join(context.appOutDir, filename));
     console.log(` Copied ${filename}`);
   }
 }
